@@ -3,11 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique</title>
+    <title>Ma Boutique</title>
+    <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
-<body style="background:black; color:white; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif;">
-    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" width="120" style="filter:invert(1);">
-    <h2 style="margin-top:20px;">BOUTIQUE ACTIVÉE</h2>
+<body style="background:black; color:white; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif; text-align:center;">
+    
+    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" width="100" style="filter:invert(1); margin-bottom:20px;">
+    
+    <h1>MA BOUTIQUE</h1>
+    <p style="color:#aaa;">Notifications personnalisées</p>
+
+    <button onclick="demanderPermission()" style="padding:15px 30px; background:#2ecc71; color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:20px;">
+        ACTIVER LES NOTIFICATIONS
+    </button>
+
+    <script>
+        // On enregistre le Service Worker (le cerveau)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+
+        // Fonction pour demander la permission à l'utilisateur
+        function demanderPermission() {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    alert('Bravo ! Les notifications sont activées.');
+                } else {
+                    alert('Tu as refusé ou ton appareil ne supporte pas encore les notifs.');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
