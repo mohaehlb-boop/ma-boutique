@@ -3,53 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ma Boutique</title>
+    <title>VisionProyect</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body style="background:black; color:white; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; margin:0; font-family:sans-serif; text-align:center;">
     
-    <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" width="100" style="filter:invert(1); margin-bottom:20px;">
+    <img src="logo.png" width="100" style="margin-bottom:20px; border-radius: 20px;">
     
-    <h1>MA BOUTIQUE</h1>
+    <h1>VisionProyect</h1>
     
     <button onclick="demanderPermission()" style="padding:15px 30px; background:#2ecc71; color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:20px;">
-        ACTIVER LES NOTIFICATIONS
+        1. ACTIVER NOTIFS
     </button>
 
-    <button onclick="testerSpam()" style="padding:15px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:10px;">
-        TESTER SPAM (3 NOTIFS)
+    <button onclick="lanzarVisionProyect()" style="padding:15px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:10px;">
+        2. TESTER COMMANDE
     </button>
 
     <script>
-        // Enregistrement du cerveau (Service Worker)
+        // Enregistrement du Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
 
-        // Fonction pour la permission
+        // Demander la permission
         function demanderPermission() {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
-                    alert('Bravo ! Les notifications sont activées.');
+                    alert('Notifications activées pour VisionProyect !');
                 }
             });
         }
 
-        // Fonction pour le spam personnalisé
-        function testerSpam() {
-            let count = 0;
-            let interval = setInterval(() => {
-                if (count < 3) {
-                    new Notification("Alerte Boutique !", {
-                        body: "Notification personnalisée n°" + (count + 1),
-                        icon: "https://cdn-icons-png.flaticon.com/512/2331/2331970.png"
-                    });
-                    count++;
-                } else {
-                    clearInterval(interval);
-                }
-            }, 1000); 
+        // TON SYSTÈME DE COMMANDE PERSONNALISÉ
+        let numeroComanda = 1;
+
+        function lanzarVisionProyect() {
+            const titulo = "commande #" + numeroComanda;
+            // Le \n permet de passer à la ligne suivante
+            const mensaje = "59,99 €, 1 article de Online Store\n•vissionproyect";
+            const logo = "logo.png"; 
+            const audioFile = "sonido.mp3"; 
+
+            // Jouer ton son personnalisé
+            const audio = new Audio(audioFile);
+            audio.play().catch(e => console.log("L'audio nécessite un clic"));
+
+            // Envoyer la notification
+            if (Notification.permission === "granted") {
+                new Notification(titulo, {
+                    body: mensaje,
+                    icon: logo,
+                    badge: logo
+                });
+                
+                // On augmente le numéro pour la prochaine fois
+                numeroComanda++;
+            } else {
+                alert("Appuie d'abord sur le bouton vert !");
+            }
         }
     </script>
 </body>
