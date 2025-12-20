@@ -12,27 +12,44 @@
     <img src="https://cdn-icons-png.flaticon.com/512/2331/2331970.png" width="100" style="filter:invert(1); margin-bottom:20px;">
     
     <h1>MA BOUTIQUE</h1>
-    <p style="color:#aaa;">Notifications personnalisées</p>
-
+    
     <button onclick="demanderPermission()" style="padding:15px 30px; background:#2ecc71; color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:20px;">
         ACTIVER LES NOTIFICATIONS
     </button>
 
+    <button onclick="testerSpam()" style="padding:15px 30px; background:#e74c3c; color:white; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; margin-top:10px;">
+        TESTER SPAM (3 NOTIFS)
+    </button>
+
     <script>
-        // On enregistre le Service Worker (le cerveau)
+        // Enregistrement du cerveau (Service Worker)
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('sw.js');
         }
 
-        // Fonction pour demander la permission à l'utilisateur
+        // Fonction pour la permission
         function demanderPermission() {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     alert('Bravo ! Les notifications sont activées.');
-                } else {
-                    alert('Tu as refusé ou ton appareil ne supporte pas encore les notifs.');
                 }
             });
+        }
+
+        // Fonction pour le spam personnalisé
+        function testerSpam() {
+            let count = 0;
+            let interval = setInterval(() => {
+                if (count < 3) {
+                    new Notification("Alerte Boutique !", {
+                        body: "Notification personnalisée n°" + (count + 1),
+                        icon: "https://cdn-icons-png.flaticon.com/512/2331/2331970.png"
+                    });
+                    count++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000); 
         }
     </script>
 </body>
