@@ -1,26 +1,30 @@
-let iconBlobUrl = 'logo.png'; // Default: tu logo.png
-let soundBlobUrl = 'sonido.mp3'; // Default: tu sonido.mp3
-let contador = 1001; // Contador empieza en 1001
+let iconBlobUrl = 'logo.png'; // Default: tu logo
+let soundBlobUrl = 'sonido.mp3'; // Default: tu sonido
+let contador = 1001; // Empieza en 1001
 
-// Actualizar nombres de archivos y URLs cuando se selecciona
+// Vista previa del icono
+const previewIcon = document.getElementById('preview-icon');
+
 document.getElementById('icon-file').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
-        document.getElementById('icon-name').textContent = file.name;
+        document.getElementById('icon-name').textContent = 'Seleccionado: ' + file.name;
         iconBlobUrl = URL.createObjectURL(file);
+        previewIcon.src = iconBlobUrl; // Cambia la vista previa
     } else {
-        document.getElementById('icon-name').textContent = 'Usando default (logo.png)';
+        document.getElementById('icon-name').textContent = 'Por defecto: logo.png';
         iconBlobUrl = 'logo.png';
+        previewIcon.src = 'logo.png';
     }
 });
 
 document.getElementById('sound-file').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
-        document.getElementById('sound-name').textContent = file.name;
+        document.getElementById('sound-name').innerHTML = 'Seleccionado: ' + file.name + ' <strong>✓</strong>';
         soundBlobUrl = URL.createObjectURL(file);
     } else {
-        document.getElementById('sound-name').textContent = 'Usando default (sonido.mp3)';
+        document.getElementById('sound-name').innerHTML = 'Por defecto: sonido.mp3 <strong>✓</strong>';
         soundBlobUrl = 'sonido.mp3';
     }
 });
@@ -29,7 +33,7 @@ function activarNotifs() {
     if (Notification.permission !== "granted") {
         Notification.requestPermission().then(permission => {
             if (permission === "granted") {
-                alert("¡Permiso concedido! Ahora puedes lanzar notificaciones.");
+                alert("¡Permiso concedido! Listo para enviar commandes.");
             }
         });
     } else {
@@ -51,13 +55,12 @@ function enviarNotificacion() {
             icon: iconBlobUrl
         });
 
-        // Reproducir sonido
         if (soundBlobUrl) {
             const audio = new Audio(soundBlobUrl);
             audio.play().catch(e => console.log("Error sonido:", e));
         }
 
-        contador++; // Incrementa para la siguiente
+        contador++;
     } else {
         alert("Primero activa las notificaciones.");
     }
@@ -74,10 +77,10 @@ function lanzarSpam() {
     let i = 0;
     const interval = setInterval(() => {
         if (i < count) {
-            enviarNotificacion(); // Lanza una y auto-incrementa el contador
+            enviarNotificacion();
             i++;
         } else {
             clearInterval(interval);
         }
-    }, 1200); // 1.2 seg entre cada una
+    }, 1200);
 }
