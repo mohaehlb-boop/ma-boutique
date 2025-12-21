@@ -3,34 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VisionProyect - Notificaciones Personalizadas</title>
+    <title>VisionProyect</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --accent: #10b981; /* Verde Shopify */
+            --accent-hover: #059669;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
             margin: 0;
             padding: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         header {
             width: 100%;
-            padding: 20px;
-            display: flex;
-            justify-content: flex-end;
+            padding: 30px 20px 20px;
+            text-align: center;
+        }
+
+        .header-content {
+            display: inline-flex;
             align-items: center;
+            gap: 16px;
         }
 
         #logo {
-            height: 80px;
+            height: 90px;
             border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 3px solid var(--accent);
+        }
+
+        .site-title {
+            font-size: 2.4em;
+            font-weight: 700;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0;
         }
 
         main {
@@ -43,47 +68,96 @@
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
             padding: 40px;
             width: 100%;
-            max-width: 600px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            text-align: center;
+            max-width: 640px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--border);
         }
 
-        h1 {
-            font-size: 2.5em;
+        h2 {
+            text-align: center;
+            font-size: 1.6em;
             margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            color: var(--text-secondary);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
         }
 
         label {
             display: block;
-            margin-top: 20px;
-            font-size: 1.1em;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 1.05em;
         }
 
-        input[type="file"], input[type="text"], input[type="number"] {
+        .input-wrapper {
+            position: relative;
+        }
+
+        input[type="text"], input[type="number"], textarea {
             width: 100%;
-            padding: 12px;
-            margin-top: 8px;
-            border: none;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.2);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: rgba(30, 41, 59, 0.6);
             color: white;
-            font-size: 1em;
+            font-size: 1.1em;
+            transition: all 0.3s;
         }
 
-        input::placeholder {
-            color: rgba(255,255,255,0.7);
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .preview-icon-wrapper {
+            text-align: center;
+            margin: 16px 0;
+        }
+
+        #preview-icon {
+            height: 100px;
+            width: 100px;
+            border-radius: 24px;
+            object-fit: cover;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 3px solid var(--accent);
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: block;
+        }
+
+        .file-input-label {
+            display: block;
+            padding: 14px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-input-label:hover {
+            border-color: var(--accent);
+            background: rgba(16, 185, 129, 0.1);
         }
 
         .file-name {
-            margin-top: 5px;
-            font-size: 0.9em;
-            color: #ddd;
+            margin-top: 8px;
+            font-size: 0.95em;
+            color: var(--text-secondary);
+            text-align: center;
         }
 
         .buttons {
@@ -95,60 +169,97 @@
         }
 
         button {
-            padding: 14px 30px;
-            font-size: 1.1em;
+            padding: 16px 36px;
+            font-size: 1.2em;
+            font-weight: 600;
             border: none;
-            border-radius: 50px;
-            background: #ff6b6b;
+            border-radius: 16px;
+            background: var(--accent);
             color: white;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
             transition: all 0.3s;
         }
 
         button:hover {
-            background: #ff5252;
-            transform: translateY(-3px);
+            background: var(--accent-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+        }
+
+        .spam-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: var(--text-secondary);
         }
     </style>
 </head>
 <body>
     <header>
-        <img src="logo.png" alt="Logo VisionProyect" id="logo">
+        <div class="header-content">
+            <img src="logo.png" alt="Logo" id="logo">
+            <h1 class="site-title">VisionProyect</h1>
+        </div>
     </header>
 
     <main>
         <div class="container">
-            <h1>VisionProyect</h1>
-            <h2>Personaliza tus notificaciones de commande</h2>
+            <h2>Generador de notificaciones premium</h2>
 
             <form id="notif-form">
-                <label>Icono de notificación (por defecto: tu logo actual):</label>
-                <div style="text-align: center; margin: 15px 0;">
-                    <img id="preview-icon" src="logo.png" alt="Vista previa del icono" style="height: 80px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                <div class="form-group">
+                    <label>Icono de notificación</label>
+                    <div class="preview-icon-wrapper">
+                        <img id="preview-icon" src="logo.png" alt="Vista previa">
+                    </div>
+                    <div class="file-input-wrapper">
+                        <label class="file-input-label" for="icon-file">
+                            Seleccionar nueva imagen
+                        </label>
+                        <input type="file" id="icon-file" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="file-name" id="icon-name">Por defecto: logo.png</div>
                 </div>
-                <input type="file" id="icon-file" accept="image/*">
-                <div class="file-name" id="icon-name">Por defecto: logo.png</div>
 
-                <label>Sonido de notificación (por defecto: sonido.mp3):</label>
-                <input type="file" id="sound-file" accept="audio/*">
-                <div class="file-name" id="sound-name">Por defecto: sonido.mp3 <strong>✓</strong></div>
+                <div class="form-group">
+                    <label>Sonido de notificación</label>
+                    <div class="file-input-wrapper">
+                        <label class="file-input-label" for="sound-file">
+                            Seleccionar nuevo sonido
+                        </label>
+                        <input type="file" id="sound-file" accept="audio/*" style="display: none;">
+                    </div>
+                    <div class="file-name" id="sound-name">Por defecto: sonido.mp3 ✓</div>
+                </div>
 
-                <label>Precio (default: 59,99 €):</label>
-                <input type="text" id="precio" value="59,99 €">
+                <div class="form-group">
+                    <label>Precio</label>
+                    <input type="text" id="precio" value="59,99 €" placeholder="Ej: 129,99 €">
+                </div>
 
-                <label>Cantidad de artículos (default: 1):</label>
-                <input type="number" id="cantidad" min="1" value="1">
+                <div class="form-group">
+                    <label>Cantidad de artículos</label>
+                    <input type="number" id="cantidad" min="1" value="1">
+                </div>
 
-                <label>Texto después del punto (default: vissionproyect):</label>
-                <input type="text" id="texto-punto" value="vissionproyect">
+                <div class="form-group">
+                    <label>Texto final (después del punto)</label>
+                    <input type="text" id="texto-punto" value="vissionproyect" placeholder="Ej: vissionproyect">
+                </div>
 
-                <label>Número de notificaciones en spam:</label>
-                <input type="number" id="spam-count" min="1" value="5"> <!-- Sin límite máximo -->
+                <div class="form-group">
+                    <label>Cantidad de notificaciones spam</label>
+                    <input type="number" id="spam-count" min="1" value="10" placeholder="Sin límite">
+                </div>
 
                 <div class="buttons">
                     <button type="button" onclick="activarNotifs()">Activar Notificaciones</button>
-                    <button type="button" onclick="lanzarSpam()">Lanzar Bomba de Notifs</button>
+                    <button type="button" onclick="lanzarSpam()">Lanzar Spam</button>
+                </div>
+
+                <div class="spam-info">
+                    Consejo: Usa números altos para una bomba real 💥
                 </div>
             </form>
         </div>
