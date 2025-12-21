@@ -64,7 +64,7 @@
             font-size: 1.1em;
         }
 
-        input[type="file"], textarea, input[type="number"] {
+        input[type="file"], input[type="text"], input[type="number"] {
             width: 100%;
             padding: 12px;
             margin-top: 8px;
@@ -73,11 +73,6 @@
             background: rgba(255,255,255,0.2);
             color: white;
             font-size: 1em;
-        }
-
-        textarea {
-            height: 100px;
-            resize: vertical;
         }
 
         .file-name {
@@ -123,16 +118,22 @@
             <h2>Personaliza tus notificaciones</h2>
 
             <form id="notif-form">
-                <label>Icono de notificación (imagen):</label>
+                <label>Icono de notificación (imagen, default: logo.png):</label>
                 <input type="file" id="icon-file" accept="image/*">
-                <div class="file-name" id="icon-name">Ningún archivo seleccionado</div>
+                <div class="file-name" id="icon-name">Usando default (logo.png)</div>
 
-                <label>Mensaje:</label>
-                <textarea id="message" placeholder="Escribe el mensaje que quieres en la notificación..."></textarea>
-
-                <label>Sonido de notificación (audio):</label>
+                <label>Sonido de notificación (audio, default: sonido.mp3):</label>
                 <input type="file" id="sound-file" accept="audio/*">
-                <div class="file-name" id="sound-name">Ningún archivo seleccionado</div>
+                <div class="file-name" id="sound-name">Usando default (sonido.mp3)</div>
+
+                <label>Precio (default: 59,99 €):</label>
+                <input type="text" id="precio" value="59,99 €">
+
+                <label>Cantidad de artículos (default: 1):</label>
+                <input type="number" id="cantidad" min="1" value="1">
+
+                <label>Texto después del punto (default: VisionProyect):</label>
+                <input type="text" id="texto-punto" value="VisionProyect">
 
                 <label>Número de notificaciones en spam (máx 20):</label>
                 <input type="number" id="spam-count" min="1" max="20" value="5">
