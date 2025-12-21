@@ -1,6 +1,6 @@
 {
-  "name": "VisionProyect",
-  "short_name": "VisionProyect",
+  "name": "Online Store",
+  "short_name": "Store",
   "description": "Notificaciones personalizadas de commandes para tu boutique",
   "start_url": "/ma-boutique/",
   "scope": "/ma-boutique/",
