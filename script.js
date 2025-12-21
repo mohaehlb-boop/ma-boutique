@@ -1,8 +1,7 @@
-let iconBlobUrl = 'logo.png'; // Default: tu logo
-let soundBlobUrl = 'sonido.mp3'; // Default: tu sonido
-let contador = 1001; // Empieza en 1001
+let iconBlobUrl = 'logo.png';
+let soundBlobUrl = 'sonido.mp3';
+let contador = 1001;
 
-// Vista previa del icono
 const previewIcon = document.getElementById('preview-icon');
 
 document.getElementById('icon-file').addEventListener('change', function(e) {
@@ -10,7 +9,7 @@ document.getElementById('icon-file').addEventListener('change', function(e) {
     if (file) {
         document.getElementById('icon-name').textContent = 'Seleccionado: ' + file.name;
         iconBlobUrl = URL.createObjectURL(file);
-        previewIcon.src = iconBlobUrl; // Cambia la vista previa
+        previewIcon.src = iconBlobUrl;
     } else {
         document.getElementById('icon-name').textContent = 'Por defecto: logo.png';
         iconBlobUrl = 'logo.png';
@@ -83,4 +82,13 @@ function lanzarSpam() {
             clearInterval(interval);
         }
     }, 1200);
+}
+
+// Registrar Service Worker para PWA
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service Worker registrado'))
+            .catch(err => console.log('Error SW:', err));
+    });
 }
