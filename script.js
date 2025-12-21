@@ -46,7 +46,6 @@ function enviarNotificacion() {
         const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
         const textoPunto = document.getElementById('texto-punto').value || 'vissionproyect';
 
-        // Plural article/articles
         const articuloTexto = cantidad === 1 ? 'article' : 'articles';
         
         const titulo = `commande #${contador}`;
