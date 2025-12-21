@@ -2,30 +2,147 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>VisionProyect - Personaliza Notificaciones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionProyect - Notificaciones Personalizadas</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        #logo {
+            height: 80px; /* Tamaño razonable, no gigante */
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 1em;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .buttons {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 14px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            background: #ff6b6b;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #ff5252;
+            transform: translateY(-3px);
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+    </style>
 </head>
 <body>
-    <h1>VisionProyect</h1>
-    <img src="logo.png" alt="Logo por defecto">
-    
-    <h2>Personaliza tu notificación</h2>
-    <form id="notif-form">
-        <label>Logo (URL de imagen):</label><br>
-        <input type="text" id="icon-url" placeholder="https://ejemplo.com/imagen.png"><br><br>
-        
-        <label>Mensaje:</label><br>
-        <textarea id="message" placeholder="Escribe tu mensaje aquí"></textarea><br><br>
-        
-        <label>Sonido (URL de audio, opcional):</label><br>
-        <input type="text" id="sound-url" placeholder="https://ejemplo.com/sonido.mp3"><br><br>
-        
-        <label>Número de notificaciones en spam:</label><br>
-        <input type="number" id="spam-count" min="1" max="10" value="1"><br><br> <!-- Limita para evitar abuso -->
-        
-        <button type="button" onclick="activarNotifs()">Activar y Personalizar Notifs</button>
-        <button type="button" onclick="lanzarSpam()">Lanzar Bomba de Notifs</button>
-    </form>
-    
+    <header>
+        <img src="logo.png" alt="Logo VisionProyect" id="logo">
+    </header>
+
+    <main>
+        <div class="container">
+            <h1>VisionProyect</h1>
+            <h2>Personaliza tus notificaciones</h2>
+
+            <form id="notif-form">
+                <label>Logo (URL de imagen):</label>
+                <input type="text" id="icon-url" placeholder="https://ejemplo.com/mi-logo.png (o deja vacío para usar el default)">
+
+                <label>Mensaje:</label>
+                <textarea id="message" placeholder="Escribe el mensaje que quieres en la notificación..."></textarea>
+
+                <label>Sonido (URL de audio, opcional):</label>
+                <input type="text" id="sound-url" placeholder="https://ejemplo.com/sonido.mp3">
+
+                <label>Número de notificaciones en spam (máx 20):</label>
+                <input type="number" id="spam-count" min="1" max="20" value="5">
+
+                <div class="buttons">
+                    <button type="button" onclick="activarNotifs()">Activar Notificaciones</button>
+                    <button type="button" onclick="lanzarSpam()">Lanzar Bomba de Notifs</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
     <script src="script.js"></script>
 </body>
 </html>
