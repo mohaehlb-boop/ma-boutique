@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VisionProyect - Notificaciones Personalizadas</title>
     <style>
-        /* Mismo estilo bonito que antes */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -75,6 +74,10 @@
             font-size: 1em;
         }
 
+        input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
         .file-name {
             margin-top: 5px;
             font-size: 0.9em;
@@ -115,16 +118,19 @@
     <main>
         <div class="container">
             <h1>VisionProyect</h1>
-            <h2>Personaliza tus notificaciones</h2>
+            <h2>Personaliza tus notificaciones de commande</h2>
 
             <form id="notif-form">
-                <label>Icono de notificación (imagen, default: logo.png):</label>
+                <label>Icono de notificación (por defecto: tu logo actual):</label>
+                <div style="text-align: center; margin: 15px 0;">
+                    <img id="preview-icon" src="logo.png" alt="Vista previa del icono" style="height: 80px; border-radius: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3);">
+                </div>
                 <input type="file" id="icon-file" accept="image/*">
-                <div class="file-name" id="icon-name">Usando default (logo.png)</div>
+                <div class="file-name" id="icon-name">Por defecto: logo.png</div>
 
-                <label>Sonido de notificación (audio, default: sonido.mp3):</label>
+                <label>Sonido de notificación (por defecto: sonido.mp3):</label>
                 <input type="file" id="sound-file" accept="audio/*">
-                <div class="file-name" id="sound-name">Usando default (sonido.mp3)</div>
+                <div class="file-name" id="sound-name">Por defecto: sonido.mp3 <strong>✓</strong></div>
 
                 <label>Precio (default: 59,99 €):</label>
                 <input type="text" id="precio" value="59,99 €">
