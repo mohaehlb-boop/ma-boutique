@@ -43,11 +43,14 @@ function activarNotifs() {
 function enviarNotificacion() {
     if (Notification.permission === "granted") {
         const precio = document.getElementById('precio').value || '59,99 €';
-        const cantidad = document.getElementById('cantidad').value || 1;
+        const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
         const textoPunto = document.getElementById('texto-punto').value || 'VisionProyect';
 
+        // Plural para "article"
+        const articuloTexto = cantidad === 1 ? 'article' : 'articles';
+        
         const titulo = `commande #${contador}`;
-        const body = `${precio}, ${cantidad} article Online Store\n\n•${textoPunto}`;
+        const body = `${precio}, ${cantidad} ${articuloTexto} de Online Store\n\n•${textoPunto}`;
 
         new Notification(titulo, {
             body: body,
