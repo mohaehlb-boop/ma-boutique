@@ -1,14 +1,16 @@
-let iconBlobUrl = 'logo.png'; // Por defecto usa tu logo principal
-let soundBlobUrl = 'sonido.mp3'; // Por defecto usa el sonido que ya tienes
+let iconBlobUrl = 'logo.png'; // Default: tu logo.png
+let soundBlobUrl = 'sonido.mp3'; // Default: tu sonido.mp3
+let contador = 1001; // Contador empieza en 1001
 
-// Mostrar nombre del archivo seleccionado (opcional, para que se vea bonito)
+// Actualizar nombres de archivos y URLs cuando se selecciona
 document.getElementById('icon-file').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         document.getElementById('icon-name').textContent = file.name;
         iconBlobUrl = URL.createObjectURL(file);
     } else {
-        iconBlobUrl = 'logo.png'; // vuelve al default
+        document.getElementById('icon-name').textContent = 'Usando default (logo.png)';
+        iconBlobUrl = 'logo.png';
     }
 });
 
@@ -18,7 +20,8 @@ document.getElementById('sound-file').addEventListener('change', function(e) {
         document.getElementById('sound-name').textContent = file.name;
         soundBlobUrl = URL.createObjectURL(file);
     } else {
-        soundBlobUrl = 'sonido.mp3'; // vuelve al default
+        document.getElementById('sound-name').textContent = 'Usando default (sonido.mp3)';
+        soundBlobUrl = 'sonido.mp3';
     }
 });
 
@@ -34,12 +37,17 @@ function activarNotifs() {
     }
 }
 
-function crearNotificacion() {
+function enviarNotificacion() {
     if (Notification.permission === "granted") {
-        const message = document.getElementById('message').value || 'Notificación personalizada';
+        const precio = document.getElementById('precio').value || '59,99 €';
+        const cantidad = document.getElementById('cantidad').value || 1;
+        const textoPunto = document.getElementById('texto-punto').value || 'VisionProyect';
 
-        new Notification("VisionProyect", {
-            body: message,
+        const titulo = `commande #${contador}`;
+        const body = `${precio}, ${cantidad} article Online Store\n\n•${textoPunto}`;
+
+        new Notification(titulo, {
+            body: body,
             icon: iconBlobUrl
         });
 
@@ -48,6 +56,8 @@ function crearNotificacion() {
             const audio = new Audio(soundBlobUrl);
             audio.play().catch(e => console.log("Error sonido:", e));
         }
+
+        contador++; // Incrementa para la siguiente
     } else {
         alert("Primero activa las notificaciones.");
     }
@@ -60,23 +70,14 @@ function lanzarSpam() {
     }
 
     const count = parseInt(document.getElementById('spam-count').value) || 1;
-    const messageBase = document.getElementById('message').value || 'Spam de notificación';
 
     let i = 0;
     const interval = setInterval(() => {
         if (i < count) {
-            new Notification("VisionProyect", {
-                body: messageBase + ` (#${i + 1})`,
-                icon: iconBlobUrl
-            });
-
-            if (soundBlobUrl) {
-                const audio = new Audio(soundBlobUrl);
-                audio.play().catch(e => {});
-            }
+            enviarNotificacion(); // Lanza una y auto-incrementa el contador
             i++;
         } else {
             clearInterval(interval);
         }
-    }, 1200); // 1.2 segundos entre cada notificación
+    }, 1200); // 1.2 seg entre cada una
 }
