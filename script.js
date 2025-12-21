@@ -20,10 +20,10 @@ document.getElementById('icon-file').addEventListener('change', function(e) {
 document.getElementById('sound-file').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
-        document.getElementById('sound-name').innerHTML = 'Seleccionado: ' + file.name + ' <strong>✓</strong>';
+        document.getElementById('sound-name').innerHTML = 'Seleccionado: ' + file.name + ' ✓';
         soundBlobUrl = URL.createObjectURL(file);
     } else {
-        document.getElementById('sound-name').innerHTML = 'Por defecto: sonido.mp3 <strong>✓</strong>';
+        document.getElementById('sound-name').innerHTML = 'Por defecto: sonido.mp3 ✓';
         soundBlobUrl = 'sonido.mp3';
     }
 });
@@ -32,7 +32,7 @@ function activarNotifs() {
     if (Notification.permission !== "granted") {
         Notification.requestPermission().then(permission => {
             if (permission === "granted") {
-                alert("¡Permiso concedido! Listo para enviar commandes.");
+                alert("¡Notificaciones activadas! Listo para el spam.");
             }
         });
     } else {
@@ -62,8 +62,6 @@ function enviarNotificacion() {
         }
 
         contador++;
-    } else {
-        alert("Primero activa las notificaciones.");
     }
 }
 
@@ -86,11 +84,10 @@ function lanzarSpam() {
     }, 1200);
 }
 
-// Registrar Service Worker para PWA
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-            .then(reg => console.log('Service Worker registrado'))
+            .then(reg => console.log('SW registrado'))
             .catch(err => console.log('Error SW:', err));
     });
 }
