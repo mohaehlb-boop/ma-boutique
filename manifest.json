@@ -1,6 +1,6 @@
 {
-  "name": "Online Store",
-  "short_name": "Store",
+  "name": ".",
+  "short_name": ".",
   "description": "Notificaciones personalizadas de commandes para tu boutique",
   "start_url": "/ma-boutique/",
   "scope": "/ma-boutique/",
