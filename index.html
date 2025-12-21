@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VisionProyect - Notificaciones Personalizadas</title>
     <style>
+        /* Mismo estilo bonito que antes */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -26,7 +27,7 @@
         }
 
         #logo {
-            height: 80px; /* Tamaño razonable, no gigante */
+            height: 80px;
             border-radius: 50%;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
@@ -63,7 +64,7 @@
             font-size: 1.1em;
         }
 
-        input[type="text"], input[type="number"], textarea {
+        input[type="file"], textarea, input[type="number"] {
             width: 100%;
             padding: 12px;
             margin-top: 8px;
@@ -74,13 +75,15 @@
             font-size: 1em;
         }
 
-        input::placeholder, textarea::placeholder {
-            color: rgba(255,255,255,0.7);
-        }
-
         textarea {
             height: 100px;
             resize: vertical;
+        }
+
+        .file-name {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #ddd;
         }
 
         .buttons {
@@ -88,6 +91,7 @@
             display: flex;
             gap: 20px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         button {
@@ -106,10 +110,6 @@
             background: #ff5252;
             transform: translateY(-3px);
         }
-
-        button:active {
-            transform: translateY(1px);
-        }
     </style>
 </head>
 <body>
@@ -123,14 +123,16 @@
             <h2>Personaliza tus notificaciones</h2>
 
             <form id="notif-form">
-                <label>Logo (URL de imagen):</label>
-                <input type="text" id="icon-url" placeholder="https://ejemplo.com/mi-logo.png (o deja vacío para usar el default)">
+                <label>Icono de notificación (imagen):</label>
+                <input type="file" id="icon-file" accept="image/*">
+                <div class="file-name" id="icon-name">Ningún archivo seleccionado</div>
 
                 <label>Mensaje:</label>
                 <textarea id="message" placeholder="Escribe el mensaje que quieres en la notificación..."></textarea>
 
-                <label>Sonido (URL de audio, opcional):</label>
-                <input type="text" id="sound-url" placeholder="https://ejemplo.com/sonido.mp3">
+                <label>Sonido de notificación (audio):</label>
+                <input type="file" id="sound-file" accept="audio/*">
+                <div class="file-name" id="sound-name">Ningún archivo seleccionado</div>
 
                 <label>Número de notificaciones en spam (máx 20):</label>
                 <input type="number" id="spam-count" min="1" max="20" value="5">
