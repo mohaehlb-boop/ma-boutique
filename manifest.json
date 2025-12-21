@@ -1,15 +1,45 @@
-{
-  "name": "Ma Boutique",
-  "short_name": "Boutique",
-  "start_url": "index.html",
-  "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#000000",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/2331/2331970.png",
-      "sizes": "512x512",
-      "type": "image/png"
+function activarNotifs() {
+    if (Notification.permission !== "granted") {
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                alert("Permiso concedido!");
+            }
+        });
+    } else {
+        alert("Ya tienes permiso para notificaciones.");
     }
-  ]
+}
+
+function crearNotificacion(icon, message, sound) {
+    if (Notification.permission === "granted") {
+        const notif = new Notification("Notificación Personalizada", {
+            body: message,
+            icon: icon
+        });
+        
+        // Para sonido: La API estándar no soporta sonido directo, pero puedes reproducir audio por separado
+        if (sound) {
+            const audio = new Audio(sound);
+            audio.play();
+        }
+    } else {
+        alert("Necesitas dar permiso primero.");
+    }
+}
+
+function lanzarSpam() {
+    const icon = document.getElementById('icon-url').value || 'logo.png'; // Default al logo
+    const message = document.getElementById('message').value || 'Mensaje por defecto';
+    const sound = document.getElementById('sound-url').value;
+    const count = parseInt(document.getElementById('spam-count').value) || 1;
+    
+    let i = 0;
+    const interval = setInterval(() => {
+        if (i < count) {
+            crearNotificacion(icon, message + ` (#${i+1})`, sound);
+            i++;
+        } else {
+            clearInterval(interval);
+        }
+    }, 1000); // 1 segundo entre cada notif para no abusar
 }
