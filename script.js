@@ -1,6 +1,7 @@
 let iconBlobUrl = 'logo.png';
 let soundBlobUrl = 'sonido.mp3';
 let contador = 1001;
+let spamInterval = null; // Para poder parar el spam
 
 const previewIcon = document.getElementById('preview-icon');
 
@@ -32,7 +33,7 @@ function activarNotifs() {
     if (Notification.permission !== "granted") {
         Notification.requestPermission().then(permission => {
             if (permission === "granted") {
-                alert("¡Notificaciones activadas! Listo para el spam.");
+                alert("¡Notificaciones activadas! Listo para la bomba.");
             }
         });
     } else {
@@ -71,19 +72,37 @@ function lanzarSpam() {
         return;
     }
 
+    // Si ya hay un spam corriendo, no lanzar otro
+    if (spamInterval) {
+        alert("Ya hay un spam en marcha. Usa 'Parar Spam' primero.");
+        return;
+    }
+
     const count = parseInt(document.getElementById('spam-count').value) || 1;
 
     let i = 0;
-    const interval = setInterval(() => {
+    spamInterval = setInterval(() => {
         if (i < count) {
             enviarNotificacion();
             i++;
         } else {
-            clearInterval(interval);
+            clearInterval(spamInterval);
+            spamInterval = null; // Reset para poder lanzar otro
         }
-    }, 1200);
+    }, 300); // ¡300ms = súper rápido! (antes era 1200)
 }
 
+function pararSpam() {
+    if (spamInterval) {
+        clearInterval(spamInterval);
+        spamInterval = null;
+        alert("Spam parado.");
+    } else {
+        alert("No hay spam activo.");
+    }
+}
+
+// Registrar Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
