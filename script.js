@@ -1,43 +1,18 @@
 let iconBlobUrl = 'logo.png';
 let soundBlobUrl = 'sonido.mp3';
 let contador = 1001;
+let spamInterval = null;
 
 const previewIcon = document.getElementById('preview-icon');
+const currentCount = document.getElementById('current-count');
 
-// Partículas sutiles
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const particles = [];
-for (let i = 0; i < 50; i++) {
-    particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 2 + 1,
-        speed: Math.random() * 1 + 0.5
-    });
+function updateCounter() {
+    currentCount.textContent = `Próxima commande: #${contador}`;
 }
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    particles.forEach(p => {
-        p.y += p.speed;
-        if (p.y > canvas.height) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.3)';
-        ctx.fill();
-    });
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-});
 
-// Archivos
-document.getElementById('icon-file').addEventListener('change', e => {
+updateCounter();
+
+document.getElementById('icon-file').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         document.getElementById('icon-name').textContent = 'Seleccionado: ' + file.name;
@@ -50,7 +25,7 @@ document.getElementById('icon-file').addEventListener('change', e => {
     }
 });
 
-document.getElementById('sound-file').addEventListener('change', e => {
+document.getElementById('sound-file').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
         document.getElementById('sound-name').innerHTML = 'Seleccionado: ' + file.name + ' ✓';
@@ -63,48 +38,71 @@ document.getElementById('sound-file').addEventListener('change', e => {
 
 function activarNotifs() {
     if (Notification.permission !== "granted") {
-        Notification.requestPermission().then(p => {
-            if (p === "granted") alert("¡Activadas!");
+        Notification.requestPermission().then(permission => {
+            if (permission === "granted") {
+                alert("¡Notificaciones activadas! Listo para la bomba.");
+            }
         });
-    } else alert("Ya activadas.");
+    } else {
+        alert("Las notificaciones ya están activadas.");
+    }
 }
 
 function enviarNotificacion() {
     if (Notification.permission === "granted") {
         const precio = document.getElementById('precio').value || '59,99 €';
         const cantidad = parseInt(document.getElementById('cantidad').value) || 1;
-        const texto = document.getElementById('texto-punto').value || 'vissionproyect';
-        const vibrate = document.getElementById('vibrate').checked;
-
-        const articulo = cantidad === 1 ? 'article' : 'articles';
+        const textoPunto = document.getElementById('texto-punto').value || 'vissionproyect';
+        const articuloTexto = cantidad === 1 ? 'article' : 'articles';
+       
         const titulo = `commande #${contador}`;
-        const body = `${precio}, ${cantidad} ${articulo} de Online Store\n•${texto}`;
-
+        const body = `${precio}, ${cantidad} ${articuloTexto} de Online Store\n•${textoPunto}`;
+        
         new Notification(titulo, {
             body: body,
-            icon: iconBlobUrl,
-            vibrate: vibrate ? [200, 100, 200] : []
+            icon: iconBlobUrl
         });
-
+        
         if (soundBlobUrl) {
-            new Audio(soundBlobUrl).play().catch(() => {});
+            const audio = new Audio(soundBlobUrl);
+            audio.play().catch(() => {});
         }
+        
         contador++;
+        updateCounter();
     }
 }
 
 function lanzarSpam() {
-    if (Notification.permission !== "granted") return alert("Activa primero");
+    if (Notification.permission !== "granted") {
+        alert("Primero activa las notificaciones.");
+        return;
+    }
+    if (spamInterval) {
+        alert("Ya hay un spam en marcha. Usa 'Parar Spam' primero.");
+        return;
+    }
     const count = parseInt(document.getElementById('spam-count').value) || 1;
-    const delay = parseInt(document.getElementById('delay').value) || 1200;
-
     let i = 0;
-    const interval = setInterval(() => {
+    spamInterval = setInterval(() => {
         if (i < count) {
             enviarNotificacion();
             i++;
-        } else clearInterval(interval);
-    }, delay);
+        } else {
+            clearInterval(spamInterval);
+            spamInterval = null;
+        }
+    }, 300);
+}
+
+function pararSpam() {
+    if (spamInterval) {
+        clearInterval(spamInterval);
+        spamInterval = null;
+        alert("Spam parado.");
+    } else {
+        alert("No hay spam activo.");
+    }
 }
 
 if ('serviceWorker' in navigator) {
