@@ -3,126 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Life Simulator</title>
+    <title>VisionProyect - Notificaciones Pro</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="logo.png">
     <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #ff6b6b;
+            --text: white;
+            --glass: rgba(255, 255, 255, 0.1);
+        }
         body {
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
+            background: linear-gradient(135deg, #1e1e2f, #2a1b3d);
+            color: var(--text);
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            position: relative;
+        }
+        #particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
         }
         header {
-            padding: 20px;
             width: 100%;
-            text-align: right;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 10;
         }
         #logo {
-            height: 80px;
+            height: 90px;
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255,255,255,0.2);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            transition: transform 0.5s ease;
         }
-        .dashboard {
-            text-align: center;
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-        }
-        h1 {
-            font-size: 3.5em;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #gold, #fff, #gold);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .balance {
-            font-size: 4em;
-            font-weight: bold;
-            margin: 30px 0;
-            text-shadow: 0 0 20px rgba(0,255,0,0.5);
-        }
-        .income-log {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            height: 300px;
-            overflow-y: auto;
-            margin: 30px 0;
-            text-align: left;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .income-item {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 0.8s forwards;
-        }
-        .unlocks {
+        #logo:hover { transform: rotate(360deg) scale(1.1); }
+        main {
+            position: relative;
+            z-index: 2;
             display: flex;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-top: 40px;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
         }
-        .unlock-item {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
+        .container {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 50px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: fadeInUp 1s ease-out;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 1.2s ease-out;
+        }
+        h2 {
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out;
+        }
+        label {
+            display: block;
+            margin-top: 25px;
+            font-weight: 600;
+            font-size: 1.1em;
+            animation: fadeInLeft 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        input[type="file"], input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 14px;
+            margin-top: 8px;
+            border: none;
             border-radius: 12px;
-            width: 180px;
-            text-align: center;
-            opacity: 0.5;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            font-size: 1em;
+            transition: all 0.3s;
         }
-        .unlock-item.unlocked {
-            opacity: 1;
-            box-shadow: 0 0 20px rgba(0,255,255,0.6);
-            transform: scale(1.05);
+        input:focus {
+            outline: none;
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.02);
+        }
+        .preview-box {
+            text-align: center;
+            margin: 15px 0;
+            animation: fadeIn 1.8s ease-out;
+        }
+        #preview-icon {
+            height: 100px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.4s;
+        }
+        #preview-icon:hover { transform: scale(1.1); }
+        .file-name {
+            margin-top: 8px;
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+        .buttons {
+            margin-top: 50px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         button {
-            margin-top: 30px;
-            padding: 15px 40px;
+            padding: 16px 36px;
             font-size: 1.2em;
-            background: #ff6b6b;
-            color: white;
+            font-weight: bold;
             border: none;
             border-radius: 50px;
+            background: var(--accent);
+            color: white;
             cursor: pointer;
             box-shadow: 0 8px 25px rgba(255,107,107,0.4);
+            transition: all 0.4s;
+            animation: fadeInUp 2s ease-out;
         }
-        button:hover { transform: translateY(-5px); }
-        @keyframes fadeInUp {
-            to { opacity: 1; transform: translateY(0); }
+        button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(255,107,107,0.6);
+            background: #ff5252;
         }
+        .extra-options {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            animation: fadeIn 2.2s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
     </style>
 </head>
 <body>
+    <canvas id="particles"></canvas>
     <header>
         <img src="logo.png" alt="Logo" id="logo">
     </header>
-    <div class="dashboard">
-        <h1>Dream Life Simulator</h1>
-        <p>Tu vida de lujo en tiempo real</p>
-        <div class="balance" id="balance">500,00 €</div>
-        
-        <div class="income-log" id="log"></div>
-        
-        <div class="unlocks" id="unlocks">
-            <div class="unlock-item" data-price="10000">Rolex Datejust</div>
-            <div class="unlock-item" data-price="50000">Lamborghini</div>
-            <div class="unlock-item" data-price="100000">Apartamento París</div>
-            <div class="unlock-item" data-price="500000">Yate Privado</div>
+    <main>
+        <div class="container">
+            <h1>VisionProyect</h1>
+            <h2>Notificaciones de commande ultra pro</h2>
+            <form id="notif-form">
+                <label>Icono (default: logo Shopify)</label>
+                <div class="preview-box">
+                    <img id="preview-icon" src="logo.png" alt="Preview">
+                </div>
+                <input type="file" id="icon-file" accept="image/*">
+                <div class="file-name" id="icon-name">Por defecto: logo.png</div>
+
+                <label>Sonido (default: sonido.mp3)</label>
+                <input type="file" id="sound-file" accept="audio/*">
+                <div class="file-name" id="sound-name">Por defecto: sonido.mp3 ✓</div>
+
+                <label>Precio</label>
+                <input type="text" id="precio" value="59,99 €">
+
+                <label>Cantidad artículos</label>
+                <input type="number" id="cantidad" min="1" value="1">
+
+                <label>Texto después del punto</label>
+                <input type="text" id="texto-punto" value="vissionproyect">
+
+                <label>Cantidad spam</label>
+                <input type="number" id="spam-count" min="1" value="5">
+
+                <div class="extra-options">
+                    <label>Delay entre notificaciones (ms)</label>
+                    <input type="number" id="delay" min="500" value="1200">
+
+                    <label>Vibración en móvil</label>
+                    <input type="checkbox" id="vibrate" checked>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" onclick="activarNotifs()">Activar Notificaciones</button>
+                    <button type="button" onclick="lanzarSpam()">Lanzar Bomba</button>
+                </div>
+            </form>
         </div>
-        
-        <button onclick="resetDay()">Reset Día</button>
-    </div>
+    </main>
 
     <script src="script.js"></script>
 </body>
