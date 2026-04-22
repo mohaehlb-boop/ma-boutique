@@ -1,337 +1,593 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VisionProyect — Ma Boutique</title>
-  <meta name="description" content="Boutique VisionProyect : produits, offres, conseils." />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionProyect</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: linear-gradient(145deg, #0a0e17, #121826, #1a2332);
+            --card: rgba(20, 28, 45, 0.65);
+            --accent: #00ff9d;
+            --accent-glow: #00ff9d88;
+            --text: #e0fbfc;
+            --text-muted: #94a3b8;
+            --border: rgba(0, 255, 157, 0.2);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0,255,157,0.08), transparent 70%);
+            pointer-events: none;
+            animation: pulse 8s infinite alternate;
+        }
+        @keyframes pulse { 0%{opacity:0.4} 100%{opacity:0.6} }
 
-  <style>
-    :root {
-      --bg: linear-gradient(145deg, #0a0e17 0%, #121826 50%, #1a2332 100%);
-      --card: rgba(20, 28, 45, 0.65);
-      --accent: #00ff9d;
-      --accent-glow: #00ff9d88;
-      --text: #e0fbfc;
-      --text-muted: #94a3b8;
-      --border: rgba(0, 255, 157, 0.2);
-      --danger: #ff3b5c;
-      --danger-glow: #ff3b5c88;
-    }
+        /* ── HEADER ── */
+        header {
+            padding: 40px 20px 10px;
+            text-align: center;
+            animation: fadeDown 1s ease-out 0.3s both;
+        }
+        .header-content { display: inline-flex; align-items: center; gap: 20px; }
+        #logo {
+            height: 90px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            box-shadow: 0 0 40px var(--accent-glow);
+            transition: 0.5s;
+        }
+        #logo:hover { transform: scale(1.1) rotate(8deg); box-shadow: 0 0 60px var(--accent-glow); }
+        .site-title {
+            font-size: 2.8em;
+            font-weight: 800;
+            background: linear-gradient(90deg, #00ff9d, #00d1ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .version-badge {
+            display: inline-block;
+            background: rgba(0,255,157,0.15);
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.8em;
+            color: var(--accent);
+            margin-top: 8px;
+        }
 
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-      position: relative;
-    }
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(0,255,157,0.08) 0%, transparent 70%);
-      pointer-events: none;
-      animation: pulse 8s infinite alternate;
-    }
-    @keyframes pulse { 0% { opacity: 0.4; } 100% { opacity: 0.6; } }
+        /* ── CONTAINER ── */
+        main { width: 100%; max-width: 750px; padding: 20px; }
+        .container {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 40px;
+            border: 1px solid var(--border);
+            box-shadow: 0 25px 80px rgba(0,0,0,0.6);
+            animation: fadeUp 1s ease-out 0.6s both;
+        }
 
-    header {
-      padding: 40px 20px 20px;
-      text-align: center;
-      opacity: 0;
-      animation: fadeDown 1s ease-out 0.3s forwards;
-    }
-    .header-content {
-      display: inline-flex;
-      align-items: center;
-      gap: 20px;
-    }
-    #logo {
-      height: 100px;
-      border-radius: 50%;
-      border: 4px solid var(--accent);
-      box-shadow: 0 0 40px var(--accent-glow);
-      transition: all 0.5s;
-    }
-    #logo:hover {
-      transform: scale(1.1) rotate(8deg);
-      box-shadow: 0 0 60px var(--accent-glow);
-    }
-    .site-title {
-      font-size: 3em;
-      font-weight: 800;
-      background: linear-gradient(90deg, #00ff9d, #00d1ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -1px;
-    }
+        /* ── TITRES ── */
+        h2 { text-align: center; font-size: 1.5em; color: var(--text-muted); margin-bottom: 8px; font-weight: 600; }
+        .current-count {
+            text-align: center;
+            font-size: 1.4em;
+            font-weight: 700;
+            padding: 14px;
+            background: linear-gradient(90deg, rgba(0,255,157,0.15), rgba(0,209,255,0.1));
+            border-radius: 16px;
+            color: var(--accent);
+            box-shadow: 0 0 20px rgba(0,255,157,0.2);
+            margin-bottom: 24px;
+        }
 
-    main {
-      flex-grow: 1;
-      width: 100%;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+        /* ── TABS ── */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab {
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(30,40,60,0.5);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: 0.3s;
+        }
+        .tab:hover, .tab.active {
+            background: rgba(0,255,157,0.15);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.4s; }
 
-    .container {
-      background: var(--card);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 28px;
-      padding: 50px;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,255,157,0.05);
-      border: 1px solid var(--border);
-      opacity: 0;
-      animation: fadeUp 1s ease-out 0.6s forwards;
-    }
+        /* ── FORM ── */
+        .form-group { margin-bottom: 22px; }
+        label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-muted); font-size: 1em; }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(30, 40, 60, 0.5);
+            color: white;
+            font-size: 1.05em;
+            transition: 0.4s;
+            font-family: inherit;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+        select option { background: #1a2332; color: white; }
 
-    h2 {
-      text-align: center;
-      font-size: 1.8em;
-      margin-bottom: 20px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
+        /* ── UPLOAD ── */
+        .file-input-label {
+            display: block;
+            padding: 16px;
+            background: rgba(30,40,60,0.5);
+            border: 2px dashed var(--border);
+            border-radius: 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.4s;
+            font-weight: 600;
+        }
+        .file-input-label:hover { border-color: var(--accent); background: rgba(0,255,157,0.1); }
+        .file-name { margin-top: 8px; font-size: 0.9em; color: var(--text-muted); text-align: center; }
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      margin: 30px 0 50px;
-    }
-    .product {
-      background: rgba(30, 40, 60, 0.5);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-      transition: all 0.4s;
-    }
-    .product:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 50px rgba(0,255,157,0.15);
-      border-color: var(--accent);
-    }
-    .product img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 16px;
-      border: 2px solid var(--accent);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-    .product h3 { margin: 16px 0 8px; }
-    .product p { color: var(--text-muted); }
-    .price { font-weight: 700; color: var(--accent); font-size: 1.2em; }
-    .btn {
-      display: inline-block;
-      padding: 14px 28px;
-      font-size: 1.1em;
-      font-weight: 700;
-      border: none;
-      border-radius: 16px;
-      color: #000;
-      cursor: pointer;
-      background: var(--accent);
-      box-shadow: 0 10px 30px rgba(0,255,157,0.4);
-      transition: all 0.4s;
-      text-decoration: none;
-      text-align: center;
-    }
-    .btn:hover {
-      transform: translateY(-6px) scale(1.03);
-      box-shadow: 0 20px 50px rgba(0,255,157,0.6);
-    }
-    .btn-outline {
-      background: transparent;
-      color: var(--accent);
-      border: 2px solid var(--accent);
-      box-shadow: none;
-    }
-    .btn-danger {
-      background: var(--danger);
-      box-shadow: 0 10px 30px var(--danger-glow);
-    }
+        /* ── PREVIEW NOTIF ── */
+        .preview-section { text-align: center; margin: 20px 0; }
+        .notif-preview {
+            display: inline-flex;
+            flex-direction: column;
+            background: rgba(15,15,15,0.95);
+            border-radius: 20px;
+            padding: 20px 28px;
+            min-width: 280px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            text-align: left;
+            transition: 0.3s;
+            transform: scale(0.9);
+            opacity: 0;
+        }
+        .notif-preview.show { transform: scale(1); opacity: 1; }
+        .notif-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .notif-icon {
+            width: 44px; height: 44px;
+            border-radius: 12px;
+            object-fit: cover;
+        }
+        .notif-app { font-weight: 600; font-size: 0.9em; color: #aaa; }
+        .notif-time { font-size: 0.75em; color: #666; }
+        .notif-title { font-weight: 700; font-size: 1.05em; margin-bottom: 4px; }
+        .notif-body { font-size: 0.9em; color: #ccc; }
+        .notif-price { color: var(--accent); font-weight: 700; font-size: 1.2em; margin-top: 8px; }
 
-    .actions {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 30px 0;
-    }
+        /* ── BUTTONS ── */
+        .buttons { margin-top: 30px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 14px 28px;
+            font-size: 1.1em;
+            font-weight: 700;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 8px 25px rgba(0,255,157,0.4);
+        }
+        .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0,255,157,0.6); }
+        .btn-blue {
+            background: #00d1ff;
+            color: #000;
+            box-shadow: 0 8px 25px rgba(0,209,255,0.4);
+        }
+        .btn-blue:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(0,209,255,0.6); }
+        .btn-red {
+            background: #ff3b5c;
+            color: white;
+            box-shadow: 0 8px 25px rgba(255,59,92,0.4);
+        }
+        .btn-red:hover { transform: translateY(-4px); box-shadow: 0 15px 40px rgba(255,59,92,0.6); }
 
-    form {
-      margin-top: 40px;
-    }
-    .form-group { margin-bottom: 20px; }
-    label {
-      display: block;
-      margin-bottom: 10px;
-      font-weight: 600;
-      color: var(--text-muted);
-      font-size: 1.05em;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 16px 20px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(30, 40, 60, 0.5);
-      color: white;
-      font-size: 1.1em;
-      transition: all 0.4s;
-    }
-    input:focus, textarea:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 4px var(--accent-glow);
-      transform: translateY(-2px);
-    }
-    textarea { min-height: 120px; }
+        /* ── NOTIF FLY-IN ── */
+        .notif-fly {
+            position: fixed;
+            top: -200px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(15,15,15,0.97);
+            border-radius: 20px;
+            padding: 16px 24px;
+            min-width: 300px;
+            max-width: 360px;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            display: flex;
+            gap: 14px;
+            align-items: center;
+            animation: slideDown 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            cursor: pointer;
+            transition: opacity 0.4s, transform 0.4s;
+        }
+        .notif-fly.hide {
+            opacity: 0;
+            transform: translateY(-100px);
+        }
+        .notif-fly img {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+        .notif-fly-text { flex: 1; }
+        .notif-fly-app { font-size: 0.75em; color: #888; font-weight: 600; }
+        .notif-fly-title { font-weight: 700; font-size: 0.95em; }
+        .notif-fly-body { font-size: 0.8em; color: #aaa; margin-top: 2px; }
+        .notif-fly-price { color: var(--accent); font-weight: 700; margin-top: 4px; }
+        @keyframes slideDown {
+            from { top: -200px; opacity: 0; }
+            to { top: 20px; opacity: 1; }
+        }
 
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-muted);
-      background: rgba(20, 28, 45, 0.65);
-      border-top: 1px solid var(--border);
-    }
-    footer a { color: var(--accent); }
+        /* ── HISTORIQUE ── */
+        .history-list { max-height: 300px; overflow-y: auto; }
+        .history-item {
+            padding: 12px 16px;
+            background: rgba(30,40,60,0.4);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            border-left: 3px solid var(--accent);
+        }
+        .history-item .h-price { color: var(--accent); font-weight: 700; }
+        .history-item .h-time { color: #666; font-size: 0.8em; }
+        .empty-msg { text-align: center; color: #555; padding: 30px; }
 
-    .theme-toggle {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 100;
-      padding: 12px 16px;
-      border-radius: 16px;
-      background: rgba(30, 40, 60, 0.7);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s;
-    }
-    .theme-toggle:hover { border-color: var(--accent); }
+        /* ── FOOTER ── */
+        .spam-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85em;
+            color: var(--text-muted);
+        }
 
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        @keyframes fadeDown { from{opacity:0;transform:translateY(-40px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
-    /* Mode clair (optionnel) */
-    .light {
-      --bg: linear-gradient(145deg, #f8fafc 0%, #eef2ff 50%, #e0f2fe 100%);
-      --card: rgba(255, 255, 255, 0.75);
-      --text: #0f172a;
-      --text-muted: #475569;
-      --border: rgba(0, 0, 0, 0.1);
-    }
-  </style>
+        @media (max-width: 500px) {
+            .header-content { flex-direction: column; gap: 10px; }
+            #logo { height: 70px; }
+            .site-title { font-size: 2em; }
+            .container { padding: 24px 16px; }
+            .notif-fly { min-width: unset; right: 10px; left: 10px; }
+        }
+    </style>
 </head>
-
 <body>
-  <button class="theme-toggle" id="theme-toggle" aria-label="Changer de thème">☀️/🌙</button>
 
-  <header>
+<header>
     <div class="header-content">
-      <img src="logo.png" alt="Logo" id="logo" />
-      <h1 class="site-title">VisionProyect</h1>
+        <img src="logo.png" alt="Logo" id="logo">
+        <div>
+            <h1 class="site-title">VisionProyect</h1>
+            <div class="version-badge">✨ Version 2.0</div>
+        </div>
     </div>
-    <p class="text-muted">Boutique premium — produits utiles, au meilleur prix</p>
-  </header>
+</header>
 
-  <main>
+<main>
     <div class="container">
-      <h2>Nos produits</h2>
+        <h2>Générateur de notifs premium</h2>
+        <div class="current-count" id="current-count">Prochaine commande : #1001</div>
 
-      <div class="products">
-        <!-- Produit 1 -->
-        <div class="product">
-          <img src="https://images.unsplash.com/photo-1616628188502-413f2fe7aef2?w=800" alt="Produit 1" />
-          <h3>Produit 1</h3>
-          <p>Description courte et claire du produit.</p>
-          <p class="price">59,99 €</p>
-          <a class="btn" href="https://ton-lien-achat.com" target="_blank">Acheter</a>
+        <!-- TABS -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('custom')">🎨 Personnaliser</div>
+            <div class="tab" onclick="switchTab('preview')">👁 Aperçu</div>
+            <div class="tab" onclick="switchTab('history')">📋 Historique</div>
         </div>
 
-        <!-- Produit 2 -->
-        <div class="product">
-          <img src="https://images.unsplash.com/photo-1616628188550-ff6b3a7f5b7c?w=800" alt="Produit 2" />
-          <h3>Produit 2</h3>
-          <p>Description courte et claire du produit.</p>
-          <p class="price">29,99 €</p>
-          <a class="btn" href="https://ton-lien-achat.com" target="_blank">Acheter</a>
+        <!-- TAB: PERSONNALISER -->
+        <div class="tab-content active" id="tab-custom">
+            <!-- Icone -->
+            <div class="form-group">
+                <label>🖼 Icône</label>
+                <label class="file-input-label" for="icon-file">Changer l'image</label>
+                <input type="file" id="icon-file" accept="image/*" style="display:none;">
+                <div class="file-name" id="icon-name">Par défaut : logo.png</div>
+            </div>
+
+            <!-- Son -->
+            <div class="form-group">
+                <label>🔊 Son</label>
+                <label class="file-input-label" for="sound-file">Changer le son</label>
+                <input type="file" id="sound-file" accept="audio/*" style="display:none;">
+                <div class="file-name" id="sound-name">Par défaut : sonido.mp3 ✓</div>
+            </div>
+
+            <!-- Style -->
+            <div class="form-group">
+                <label>📱 Style de notif</label>
+                <select id="notif-style">
+                    <option value="apple">🍎 Apple Pay</option>
+                    <option value="stripe">💳 Stripe</option>
+                    <option value="paypal">🅿️ PayPal</option>
+                    <option value="uber">🚗 Uber</option>
+                    <option value="custom">✨ Personnalisé</option>
+                </select>
+            </div>
+
+            <!-- App name (custom) -->
+            <div class="form-group" id="custom-app-group" style="display:none;">
+                <label>Nom de l'app</label>
+                <input type="text" id="custom-app" placeholder="Ma super app">
+            </div>
+
+            <!-- Prix -->
+            <div class="form-group">
+                <label>💰 Prix</label>
+                <input type="text" id="precio" value="59,99 €">
+            </div>
+
+            <!-- Quantité -->
+            <div class="form-group">
+                <label>📦 Quantité</label>
+                <input type="number" id="cantidad" min="1" value="1">
+            </div>
+
+            <!-- Texte perso -->
+            <div class="form-group">
+                <label>✏️ Texte après le point</label>
+                <input type="text" id="texto-punto" value="vissionproyect">
+            </div>
+
+            <!-- Spam count -->
+            <div class="form-group">
+                <label>🔢 Nombre de notifs spam</label>
+                <input type="number" id="spam-count" min="1" max="50" value="10">
+            </div>
+
+            <!-- Vitesse -->
+            <div class="form-group">
+                <label>⚡ Vitesse entre chaque notif</label>
+                <select id="spam-speed">
+                    <option value="800">Normal (800ms)</option>
+                    <option value="400">Rapide (400ms)</option>
+                    <option value="150" selected>Ultra (150ms)</option>
+                    <option value="50">Lunatique (50ms)</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Produit 3 -->
-        <div class="product">
-          <img src="https://images.unsplash.com/photo-1616628188592-5e6d7b3c8f7a?w=800" alt="Produit 3" />
-          <h3>Produit 3</h3>
-          <p>Description courte et claire du produit.</p>
-          <p class="price">19,99 €</p>
-          <a class="btn" href="https://ton-lien-achat.com" target="_blank">Acheter</a>
+        <!-- TAB: APERÇU -->
+        <div class="tab-content" id="tab-preview">
+            <div class="preview-section">
+                <p style="color:var(--text-muted);margin-bottom:20px;">Voici à quoi ressemblera la notif :</p>
+                <div class="notif-preview show" id="notif-preview">
+                    <div class="notif-top">
+                        <img class="notif-icon" id="preview-icon" src="logo.png" alt="icon">
+                        <div>
+                            <div class="notif-app" id="preview-app">Apple Pay</div>
+                            <div class="notif-time">maintenant</div>
+                        </div>
+                    </div>
+                    <div class="notif-title" id="preview-title">Paiement effectué</div>
+                    <div class="notif-body" id="preview-body">Commande confirmée</div>
+                    <div class="notif-price" id="preview-price">59,99 €</div>
+                </div>
+                <button class="btn btn-primary" style="margin-top:20px;" onclick="updatePreview()">
+                    🔄 Actualiser l'aperçu
+                </button>
+            </div>
         </div>
-      </div>
 
-      <!-- Actions monétisation -->
-      <div class="actions">
-        <a class="btn" href="https://buymeacoffee.com/tonnom" target="_blank">Soutenir ☕</a>
-        <a class="btn btn-outline" href="#contact">Contacter</a>
-        <a class="btn btn-outline" href="https://amazon.fr" target="_blank">Amazon (affiliation)</a>
-      </div>
+        <!-- TAB: HISTORIQUE -->
+        <div class="tab-content" id="tab-history">
+            <div class="history-list" id="history-list">
+                <div class="empty-msg">Aucune notif envoyée pour l'instant 📭</div>
+            </div>
+        </div>
 
-      <!-- Formulaire contact -->
-      <h2 id="contact">Contact</h2>
-      <form action="https://formspree.io/f/tonform" method="POST">
-        <div class="form-group">
-          <label>Nom</label>
-          <input type="text" name="name" required />
+        <!-- BOUTONS -->
+        <div class="buttons">
+            <button class="btn btn-primary" onclick="activarNotifs()">⚡ Activer</button>
+            <button class="btn btn-blue" onclick="lanzarSpam()">🚀 Lancer Spam</button>
+            <button class="btn btn-red" onclick="pararSpam()">🛑 Stop</button>
         </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" name="email" required />
+
+        <div class="spam-info">
+            Glow aesthetic 2025 • Fait avec passion 💚
         </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea name="message" required></textarea>
-        </div>
-        <button class="btn" type="submit">Envoyer</button>
-      </form>
     </div>
-  </main>
+</main>
 
-  <footer>
-    <p>© VisionProyect — Boutique</p>
-    <p>Recommandations : <a href="https://amazon.fr" target="_blank">Amazon</a> • <a href="https://gumroad.com" target="_blank">Gumroad</a> • <a href="https://payhip.com" target="_blank">Payhip</a></p>
-    <p class="text-sm">Site hébergé sur GitHub Pages — dons & affiliation OK.</p>
-  </footer>
+<script>
+// ── VARIABLES ──
+let iconURL = 'logo.png';
+let soundURL = null;
+let spamInterval = null;
+let orderNum = 1001;
+let history = [];
 
-  <script>
-    // Mode sombre/clair simple
-    const toggle = document.getElementById('theme-toggle');
-    const saved = localStorage.getItem('theme');
-    if (saved === 'light') document.body.classList.add('light');
+// ── ICONE ──
+document.getElementById('icon-file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        iconURL = URL.createObjectURL(file);
+        document.getElementById('preview-icon').src = iconURL;
+        document.getElementById('icon-name').textContent = '✅ ' + file.name;
+    }
+});
 
-    toggle.addEventListener('click', () => {
-      document.body.classList.toggle('light');
-      const isLight = document.body.classList.contains('light');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+// ── SON ──
+document.getElementById('sound-file').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        soundURL = URL.createObjectURL(file);
+        document.getElementById('sound-name').textContent = '✅ ' + file.name;
+    }
+});
+
+// ── STYLE CHANGER ──
+document.getElementById('notif-style').addEventListener('change', function() {
+    document.getElementById('custom-app-group').style.display = this.value === 'custom' ? 'block' : 'none';
+    updatePreview();
+});
+
+// ── TABS ──
+function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ── APERÇU ──
+function updatePreview() {
+    const style = document.getElementById('notif-style').value;
+    const appNames = { apple: 'Apple Pay', stripe: 'Stripe', paypal: 'PayPal', uber: 'Uber', custom: document.getElementById('custom-app').value || 'App' };
+    const titles = { apple: 'Paiement effectué', stripe: 'Paiement reçu', paypal: 'Transaction réussie', uber: 'Course terminée', custom: 'Notification' };
+    const bodies = { apple: 'Commande confirmée', stripe: 'Paiement capturé', paypal: 'Fonds reçus', uber: 'Merci !', custom: 'Nouvelle notification' };
+
+    document.getElementById('preview-app').textContent = appNames[style];
+    document.getElementById('preview-title').textContent = titles[style];
+    document.getElementById('preview-body').textContent = bodies[style] + ' • ' + document.getElementById('texto-punto').value;
+    document.getElementById('preview-price').textContent = document.getElementById('precio').value;
+    document.getElementById('preview-icon').src = iconURL;
+}
+
+// ── ENVOYER UNE NOTIF ──
+function sendNotif() {
+    const style = document.getElementById('notif-style').value;
+    const appNames = { apple: 'Apple Pay', stripe: 'Stripe', paypal: 'PayPal', uber: 'Uber', custom: document.getElementById('custom-app').value || 'App' };
+    const titles = { apple: 'Paiement effectué', stripe: 'Paiement reçu', paypal: 'Transaction réussie', uber: 'Course terminée', custom: 'Notification' };
+    const qty = document.getElementById('cantidad').value;
+    const price = document.getElementById('precio').value;
+    const txt = document.getElementById('texto-punto').value;
+    const fullPrice = qty > 1 ? price + ' × ' + qty : price;
+
+    // Créer la notif
+    const notif = document.createElement('div');
+    notif.className = 'notif-fly';
+    notif.innerHTML = `
+        <img src="${iconURL}" alt="icon">
+        <div class="notif-fly-text">
+            <div class="notif-fly-app">${appNames[style]}</div>
+            <div class="notif-fly-title">${titles[style]}</div>
+            <div class="notif-fly-body">Commande #${orderNum} • ${txt}</div>
+            <div class="notif-fly-price">${fullPrice}</div>
+        </div>
+    `;
+    notif.onclick = function() {
+        this.classList.add('hide');
+        setTimeout(() => this.remove(), 400);
+    };
+    document.body.appendChild(notif);
+
+    // Son
+    if (soundURL) {
+        const audio = new Audio(soundURL);
+        audio.volume = 0.7;
+        audio.play().catch(() => {});
+    }
+
+    // Auto-disparition après 3s
+    setTimeout(() => {
+        if (notif.parentNode) {
+            notif.classList.add('hide');
+            setTimeout(() => notif.remove(), 400);
+        }
+    }, 3000);
+
+    // Historique
+    addHistory(orderNum, fullPrice, appNames[style]);
+    orderNum++;
+    document.getElementById('current-count').textContent = 'Prochaine commande : #' + orderNum;
+}
+
+// ── HISTORIQUE ──
+function addHistory(num, price, app) {
+    const now = new Date().toLocaleTimeString();
+    history.unshift({ num, price, app, time: now });
+    renderHistory();
+}
+function renderHistory() {
+    const list = document.getElementById('history-list');
+    if (history.length === 0) {
+        list.innerHTML = '<div class="empty-msg">Aucune notif envoyée 📭</div>';
+        return;
+    }
+    list.innerHTML = history.map(h =>
+        `<div class="history-item">
+            #${h.num} — <span class="h-price">${h.price}</span> via ${h.app}
+            <span class="h-time">${h.time}</span>
+        </div>`
+    ).join('');
+}
+
+// ── ACTIVER (1 notif) ──
+function activarNotifs() {
+    updatePreview();
+    sendNotif();
+}
+
+// ── SPAM ──
+function lanzarSpam() {
+    if (spamInterval) return;
+    const count = parseInt(document.getElementById('spam-count').value) || 10;
+    const speed = parseInt(document.getElementById('spam-speed').value) || 150;
+    let sent = 0;
+    spamInterval = setInterval(() => {
+        sendNotif();
+        sent++;
+        if (sent >= count) {
+            clearInterval(spamInterval);
+            spamInterval = null;
+        }
+    }, speed);
+}
+
+// ── STOP ──
+function pararSpam() {
+    if (spamInterval) {
+        clearInterval(spamInterval);
+        spamInterval = null;
+    }
+    // Fermer toutes les notifs ouvertes
+    document.querySelectorAll('.notif-fly').forEach(n => {
+        n.classList.add('hide');
+        setTimeout(() => n.remove(), 400);
     });
-  </script>
+}
+</script>
 </body>
 </html>
