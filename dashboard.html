@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VisionProyect — Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#635bff',
+            brandHover: '#4f46e5',
+            surface: '#f6f8fb',
+            surfaceDark: '#0a0a0f',
+            card: '#ffffff',
+            cardDark: '#11131a',
+            border: '#e6ebf1',
+            borderDark: '#1f2533',
+            textMuted: '#6b7c93',
+            textMutedDark: '#94a3b8',
+          },
+        },
+      },
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d1d9e6; border-radius: 8px; }
+    .dark ::-webkit-scrollbar-thumb { background: #2d3a52; }
+    .fade-in { animation: fadeIn 0.25s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+    .sidebar-item.active { background: rgba(99,91,255,0.1); color: #635bff; }
+    .dark .sidebar-item.active { background: rgba(99,91,255,0.15); color: #a5a1ff; }
+    .table-row:hover { background: rgba(99,91,255,0.03); }
+    .dark .table-row:hover { background: rgba(99,91,255,0.05); }
+  </style>
+</head>
+<body class="h-full bg-surface dark:bg-surfaceDark text-gray-900 dark:text-gray-100">
+
+  <!-- Topbar mobile -->
+  <div class="md:hidden flex items-center justify-between px-4 py-3 border-b border-border dark:border-borderDark bg-card dark:bg-cardDark">
+    <button id="mobileMenuBtn" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+    <div class="flex items-center gap-2">
+      <img src="assets/logo.png" alt="Logo" class="h-7 w-7 rounded-full ring-2 ring-brand" />
+      <span class="font-semibold">VisionProyect</span>
+      <span class="text-xs px-2 py-0.5 rounded-full bg-brand/10 text-brand">Demo</span>
+    </div>
+    <button id="themeToggleMobile" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">🌙</button>
+  </div>
+
+  <div class="min-h-full flex">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="hidden md:flex flex-col w-64 bg-card dark:bg-cardDark border-r border-border dark:border-borderDark">
+      <div class="p-5 flex items-center gap-3">
+        <img src="assets/logo.png" alt="Logo" class="h-8 w-8 rounded-full ring-2 ring-brand" />
+        <div>
+          <div class="font-semibold">VisionProyect</div>
+          <div class="text-xs text-textMuted dark:text-textMutedDark">Dashboard (demo)</div>
+        </div>
+        <span class="ml-auto text-xs px-2 py-0.5 rounded-full bg-brand/10 text-brand">Demo</span>
+      </div>
+      <nav class="flex-1 px-3 py-2 space-y-1 overflow-y-auto">
+        <a href="#" class="sidebar-item active flex items-center gap-3 px-3 py-2 rounded-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg>
+          <span>Home</span>
+        </a>
+        <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span>Pagos</span>
+        </a>
+        <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h18M7 15h1M11 15h1M15 15h1M7 19h1M11 19h1M15 19h1M3 5h18v14H3z"/></svg>
+          <span>Clientes</span>
+        </a>
+        <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6M3 19h18M5 7h14M5 11h14"/></svg>
+          <span>Reportes</span>
+        </a>
+        <a href="index.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 19l-7-7 7-7M4 12h16"/></svg>
+          <span>Volver</span>
+        </a>
+      </nav>
+      <div class="p-4 border-t border-border dark:border-borderDark">
+        <button id="themeToggle" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <span>Modo oscuro</span>
+        </button>
+        <div class="mt-3 flex items-center gap-3 px-3 py-2">
+          <img src="https://i.pravatar.cc/64" class="h-8 w-8 rounded-full" />
+          <div>
+            <div class="text-sm font-medium">Admin</div>
+            <div class="text-xs text-textMuted dark:text-textMutedDark">admin@vision.com</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Mobile drawer -->
+    <div id="mobileDrawer" class="fixed inset-0 z-50 hidden">
+      <div class="absolute inset-0 bg-black/40" id="mobileDrawerBackdrop"></div>
+      <div class="absolute left-0 top-0 bottom-0 w-72 bg-card dark:bg-cardDark border-r border-border dark:border-borderDark p-5 fade-in">
+        <div class="flex items-center gap-3">
+          <img src="assets/logo.png" alt="Logo" class="h-8 w-8 rounded-full ring-2 ring-brand" />
+          <div>
+            <div class="font-semibold">VisionProyect</div>
+            <div class="text-xs text-textMuted dark:text-textMutedDark">Dashboard (demo)</div>
+          </div>
+          <span class="ml-auto text-xs px-2 py-0.5 rounded-full bg-brand/10 text-brand">Demo</span>
+        </div>
+        <nav class="mt-6 space-y-1">
+          <a href="#" class="sidebar-item active flex items-center gap-3 px-3 py-2 rounded-lg"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg><span>Home</span></a>
+          <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span>Pagos</span></a>
+          <a href="#" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10h18M7 15h1M11 15h1M15 15h1M7 19h1M11 19h1M15 19h1M3 5h18v14H3z"/></svg><span>Clientes</span></a>
+          <a href="index.html" class="sidebar-item flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 19l-7-7 7-7M4 12h16"/></svg><span>Volver</span></a>
+        </nav>
+        <div class="mt-6">
+          <button id="themeToggleDrawer" class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span>Modo oscuro</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <main class="flex-1 overflow-y-auto">
+      <div class="px-6 py-5 border-b border-border dark:border-borderDark bg-card dark:bg-cardDark flex flex-wrap items-center gap-4">
+        <div>
+          <h1 class="text-xl font-semibold">Dashboard</h1>
+          <p class="text-sm text-textMuted dark:text-textMutedDark">Datos ficticios (demo)</p>
+        </div>
+        <div class="ml-auto flex items-center gap-3">
+          <button class="px-4 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800" onclick="exportCSV()">📥 Exportar</button>
+          <button id="newPaymentBtn" class="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brandHover">+ Nuevo pago</button>
+        </div>
+      </div>
+
+      <!-- Alert -->
+      <div class="px-6 pt-4">
+        <div class="p-3 rounded-lg bg-brand/10 text-brand border border-brand/20 text-sm">
+          <strong>Demo:</strong> Dashboard ficticio estilo Stripe. Sin transacciones reales.
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="px-6 py-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl bg-card dark:bg-cardDark border border-border dark:border-borderDark">
+          <div class="text-xs text-textMuted dark:text-textMutedDark">Ingresos totales</div>
+          <div class="mt-1 text-2xl font-semibold">€42.850</div>
+          <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">↑ 12,4% vs mes anterior</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-card dark:bg-cardDark border border-border dark:border-borderDark">
+          <div class="text-xs text-textMuted dark:text-textMutedDark">Pagos</div>
+          <div class="mt-1 text-2xl font-semibold">1.284</div>
+          <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">↑ 8,1%</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-card dark:bg-cardDark border border-border dark:border-borderDark">
+          <div class="text-xs text-textMuted dark:text-textMutedDark">Tasa éxito</div>
+          <div class="mt-1 text-2xl font-semibold">98,2%</div>
+          <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">↑ 0,6%</div>
+        </div>
+        <div class="p-5 rounded-2xl bg-card dark:bg-cardDark border border-border dark:border-borderDark">
+          <div class="text-xs text-textMuted dark:text-textMutedDark">Clientes activos</div>
+          <div class="mt-1 text-2xl font-semibold">642</div>
+          <div class="mt-1 text-xs text-emerald-600 dark:text-emerald-400">↑ 5,3%</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="px-6 pb-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 p-5 rounded-2xl bg-card dark:bg-cardDark border border-border dark:border-borderDark">
+          <div class="flex items-center justify-between">
+            <h3 class="font-semibold">Ingresos (demo)</h3>
+            <select id="chartRange" class="px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900">
+              <option>7 días</option>
+              <option selected>30 días</option>
+              <option>90 días</option>
+            </select>
+          </div>
+          <div class="mt-4 h-64">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+        <div class="p-5 rounded-2xl bg-card dark:bg-cardDark border border-border dark:border-borderDark">
+          <h3 class="font-semibold">Métodos (demo)</h3>
+          <div class="mt-4 h-64">
+            <canvas id="methodsChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="px-6 pb-10">
+        <div class="p-5 rounded-2xl bg-card dark:bg-cardDark border border-border dark:border-borderDark">
+          <div class="flex flex-wrap items-center gap-3">
+            <h3 class="font-semibold">Últimos pagos</h3>
+            <div class="ml-auto flex items-center gap-2">
+              <input id="tableSearch" type="text" placeholder="Buscar…" class="px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900 w-48" />
+              <select id="tableStatus" class="px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900">
+                <option value="">Todos</option>
+                <option value="Réussi">Éxito</option>
+                <option value="En attente">Pendiente</option>
+                <option value="Échoué">Fallo</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-4 overflow-x-auto">
+            <table class="min-w-full text-sm">
+              <thead>
+                <tr class="text-left text-textMuted dark:text-textMutedDark">
+                  <th class="py-3 pr-4">ID</th>
+                  <th class="py-3 pr-4">Cliente</th>
+                  <th class="py-3 pr-4">Monto</th>
+                  <th class="py-3 pr-4">Fecha</th>
+                  <th class="py-3 pr-4">Método</th>
+                  <th class="py-3 pr-4">Estado</th>
+                  <th class="py-3 pr-4 text-right">Acción</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+          <div class="mt-4 flex items-center justify-between">
+            <div class="text-xs text-textMuted dark:text-textMutedDark"><span id="countShown">0</span> de <span id="countTotal">0</span></div>
+            <div class="flex items-center gap-2">
+              <button id="prevPage" class="px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900">←</button>
+              <button id="nextPage" class="px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal Nuevo Pago -->
+  <div id="paymentModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" onclick="closePaymentModal()"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="w-full max-w-lg bg-card dark:bg-cardDark border border-border dark:border-borderDark rounded-2xl p-6 fade-in">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Nuevo pago (demo)</h3>
+          <button onclick="closePaymentModal()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">✕</button>
+        </div>
+        <form id="paymentForm" class="mt-4 space-y-4">
+          <div><label class="text-xs text-textMuted dark:text-textMutedDark">Cliente</label><input name="client" required class="w-full px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900" placeholder="Nombre" /></div>
+          <div><label class="text-xs text-textMuted dark:text-textMutedDark">Monto (€)</label><input name="amount" type="number" step="0.01" required class="w-full px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900" placeholder="99.99" /></div>
+          <div><label class="text-xs text-textMuted dark:text-textMutedDark">Método</label><select name="method" class="w-full px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900"><option>Carte</option><option>SEPA</option><option>PayPal</option></select></div>
+          <div><label class="text-xs text-textMuted dark:text-textMutedDark">Estado</label><select name="status" class="w-full px-3 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900"><option>Réussi</option><option>En attente</option><option>Échoué</option></select></div>
+          <div class="flex justify-end gap-3"><button type="button" onclick="closePaymentModal()" class="px-4 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900">Cancelar</button><button type="submit" class="px-4 py-2 rounded-lg bg-brand text-white hover:bg-brandHover">Crear</button></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalles -->
+  <div id="detailsModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40" onclick="closeDetailsModal()"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div class="w-full max-w-lg bg-card dark:bg-cardDark border border-border dark:border-borderDark rounded-2xl p-6 fade-in">
+        <div class="flex items-center justify-between"><h3 class="font-semibold">Detalles (demo)</h3><button onclick="closeDetailsModal()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">✕</button></div>
+        <div class="mt-4 space-y-3 text-sm"><div><span class="text-textMuted dark:text-textMutedDark">ID:</span> <span id="d-id"></span></div><div><span class="text-textMuted dark:text-textMutedDark">Cliente:</span> <span id="d-client"></span></div><div><span class="text-textMuted dark:text-textMutedDark">Monto:</span> <span id="d-amount"></span></div><div><span class="text-textMuted dark:text-textMutedDark">Fecha:</span> <span id="d-date"></span></div><div><span class="text-textMuted dark:text-textMutedDark">Método:</span> <span id="d-method"></span></div><div><span class="text-textMuted dark:text-textMutedDark">Estado:</span> <span id="d-status"></span></div></div>
+        <div class="mt-6 flex justify-end"><button onclick="closeDetailsModal()" class="px-4 py-2 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900">Cerrar</button></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Theme
+    const root = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    function setTheme(mode) { if (mode === 'dark') root.classList.add('dark'); else root.classList.remove('dark'); localStorage.setItem('theme', mode); updateThemeLabels(); }
+    function updateThemeLabels() { const isDark = root.classList.contains('dark'); document.getElementById('themeToggle').innerHTML = isDark ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span>Modo claro</span>' : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span>Modo oscuro</span>'; document.getElementById('themeToggleMobile').textContent = isDark ? '☀️' : '🌙'; document.getElementById('themeToggleDrawer').innerHTML = isDark ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg><span>Modo claro</span>' : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg><span>Modo oscuro</span>'; }
+    if (savedTheme === 'dark') setTheme('dark'); else setTheme('light');
+    function toggleTheme() { setTheme(root.classList.contains('dark') ? 'light' : 'dark'); }
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    document.getElementById('themeToggleMobile').addEventListener('click', toggleTheme);
+    document.getElementById('themeToggleDrawer').addEventListener('click', toggleTheme);
+
+    // Mobile menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => document.getElementById('mobileDrawer').classList.remove('hidden'));
+    document.getElementById('mobileDrawerBackdrop').addEventListener('click', () => document.getElementById('mobileDrawer').classList.add('hidden'));
+
+    // Data
+    const statuses = ['Réussi','Réussi','Réussi','En attente','Réussi','Échoué','Réussi','Réussi','Réussi','En attente'];
+    const methods = ['Carte','Carte','SEPA','Carte','PayPal','Carte','SEPA','Carte','Carte','PayPal'];
+    const clients = ['A. Dupont','S. Martin','L. Bernard','M. Petit','E. Leroy','C. Moreau','N. Durand','T. Lambert','P. Simon','J. Roux'];
+    const amounts = [49.99,120,79,250,15,99.99,45,180,60,35];
+    function makeDemoData(count=80) { const data=[]; const now=Date.now(); for(let i=0;i<count;i++){ const days=Math.floor(Math.random()*60); const d=new Date(now-days*86400000); data.push({id:'pay_'+(100000+i),client:clients[Math.random()*clients.length|0],amount:amounts[Math.random()*amounts.length|0],date:d.toISOString().slice(0,10),method:methods[Math.random()*methods.length|0],status:statuses[Math.random()*statuses.length|0],ref:'ref-'+Math.random().toString(36).slice(2,8)})} return data.sort((a,b)=>b.date.localeCompare(a.date)); }
+    let demoData=makeDemoData(80); let page=1; const pageSize=10; let filtered=[...demoData];
+
+    function renderTable() {
+      const s=document.getElementById('tableSearch').value.toLowerCase();
+      const st=document.getElementById('tableStatus').value;
+      filtered=demoData.filter(r=>{ const okS=r.id.toLowerCase().includes(s)||r.client.toLowerCase().includes(s); const okSt=st?r.status===st:true; return okS&&okSt; });
+      const start=(page-1)*pageSize; const rows=filtered.slice(start,start+pageSize);
+      document.getElementById('tableBody').innerHTML=rows.map(r=>{ const badge=r.status==='Réussi'?'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400':r.status==='En attente'?'bg-amber-500/10 text-amber-600 dark:text-amber-400':'bg-red-500/10 text-red-600 dark:text-red-400'; return `<tr class="table-row border-t border-border dark:border-borderDark"><td class="py-3 pr-4 font-mono text-xs">${r.id}</td><td class="py-3 pr-4">${r.client}</td><td class="py-3 pr-4 font-semibold">€${r.amount.toFixed(2)}</td><td class="py-3 pr-4">${r.date}</td><td class="py-3 pr-4">${r.method}</td><td class="py-3 pr-4"><span class="px-2 py-1 rounded-full text-xs ${badge}">${r.status}</span></td><td class="py-3 pr-4 text-right"><button onclick='openDetails("${r.id}")' class="px-3 py-1 rounded-lg border border-border dark:border-borderDark bg-white dark:bg-gray-900">Ver</button></td></tr>` }).join('');
+      document.getElementById('countShown').textContent=rows.length; document.getElementById('countTotal').textContent=filtered.length;
+      document.getElementById('prevPage').disabled=page<=1; document.getElementById('nextPage').disabled=start+pageSize>=filtered.length;
+    }
+    function openDetails(id){ const r=demoData.find(x=>x.id===id); if(!r)return; document.getElementById('d-id').textContent=r.id; document.getElementById('d-client').textContent=r.client; document.getElementById('d-amount').textContent='€'+r.amount.toFixed(2); document.getElementById('d-date').textContent=r.date; document.getElementById('d-method').textContent=r.method; document.getElementById('d-status').textContent=r.status; document.getElementById('detailsModal').classList.remove('hidden'); }
+    function closeDetailsModal(){ document.getElementById('detailsModal').classList.add('hidden'); }
+    document.getElementById('tableSearch').oninput=()=>{page=1;renderTable()};
+    document.getElementById('tableStatus').onchange=()=>{page=1;renderTable()};
+    document.getElementById('prevPage').onclick=()=>{if(page>1)page--;renderTable()};
+    document.getElementById('nextPage').onclick=()=>{page++;renderTable()};
+
+    // Modal pago
+    function closePaymentModal(){ document.getElementById('paymentModal').classList.add('hidden'); }
+    document.getElementById('newPaymentBtn').onclick=()=>document.getElementById('paymentModal').classList.remove('hidden');
+    document.getElementById('paymentForm').onsubmit=function(e){ e.preventDefault(); const fd=new FormData(e.target); demoData.unshift({id:'pay_'+(100000+demoData.length),client:fd.get('client'),amount:parseFloat(fd.get('amount'))||0,date:new Date().toISOString().slice(0,10),method:fd.get('method'),status:fd.get('status'),ref:'ref-'+Math.random().toString(36).slice(2,8)}); page=1;renderTable(); rebuildCharts(); closePaymentModal(); e.target.reset(); }
+
+    // Charts
+    let revChart, metChart;
+    function getRevData(range){ const days=range==='7 días'?7:range==='30 días'?30:90; const labels=[]; const vals=[]; const now=Date.now(); for(let i=days-1;i>=0;i--){ const d=new Date(now-i*86400000).toISOString().slice(0,10); labels.push(d.slice(5)); vals.push(demoData.filter(r=>r.date===d&&r.status==='Réussi').reduce((s,x)=>s+x.amount,0)); } return{labels,vals}; }
+    function rebuildCharts(){ const isDark=root.classList.contains('dark'); const gc=isDark?'#1f2533':'#e6ebf1'; const tc=isDark?'#94a3b8':'#6b7c93'; const range=document.getElementById('chartRange').value; const rev=getRevData(range); if(revChart)revChart.destroy(); revChart=new Chart(document.getElementById('revenueChart'),{type:'line',data:{labels:rev.labels,datasets:[{label:'€',data:rev.vals,borderColor:'#635bff',backgroundColor:'rgba(99,91,255,0.12)',fill:true,tension:0.35}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{color:gc},ticks:{color:tc}},y:{grid:{color:gc},ticks:{color:tc},beginAtZero:true}}}}); const met={Carte:0,SEPA:0,PayPal:0}; demoData.filter(r=>r.status==='Réussi').forEach(r=>met[r.method]=(met[r.method]||0)+1); if(metChart)metChart.destroy(); metChart=new Chart(document.getElementById('methodsChart'),{type:'doughnut',data:{labels:['Carte','SEPA','PayPal'],datasets:[{data:[met.Carte,met.SEPA,met.PayPal],backgroundColor:['#635bff','#00d1ff','#ff6f91'],borderColor:isDark?'#0a0a0f':'#fff'}]},options:{responsive:true,maintainAspectRatio:false}}); }
+    document.getElementById('chartRange').onchange=rebuildCharts;
+
+    // Export CSV
+    function exportCSV(){ const rows=[['ID','Cliente','Monto','Fecha','Método','Estado']].concat(demoData.map(r=>[r.id,r.client,r.amount,r.date,r.method,r.status])); const csv=rows.map(r=>r.join(',')).join('\n'); const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='pagos.csv'; a.click(); 
