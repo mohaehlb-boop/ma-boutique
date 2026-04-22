@@ -1,149 +1,194 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VisionProyect - Suite</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0a0e17;
-            --card: rgba(20,28,45,0.8);
-            --accent: #00ff9d;
-            --accent2: #635bff;
-            --text: #e0fbfc;
-            --text-muted: #94a3b8;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: radial-gradient(ellipse at center, #0f172a 0%, #0a0e17 100%);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23635bff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            pointer-events: none;
-        }
-        .container {
-            max-width: 900px;
-            width: 100%;
-            text-align: center;
-        }
-        .logo-section {
-            margin-bottom: 40px;
-            animation: fadeDown 0.8s ease-out;
-        }
-        .logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 50px rgba(0,255,157,0.3);
-            margin-bottom: 20px;
-        }
-        h1 {
-            font-size: 2.8em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #00ff9d, #00d1ff, #635bff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .subtitle {
-            color: var(--text-muted);
-            font-size: 1.1em;
-            margin-top: 8px;
-        }
-        .cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-top: 50px;
-        }
-        @media (max-width: 600px) { .cards { grid-template-columns: 1fr; } }
-        .card {
-            background: var(--card);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 24px;
-            padding: 40px 28px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            transition: 0.4s;
-        }
-        .card:nth-child(1)::before { background: linear-gradient(90deg, #635bff, #8b83ff); }
-        .card:nth-child(2)::before { background: linear-gradient(90deg, #00ff9d, #00d1ff); }
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255,255,255,0.2);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
-        }
-        .card:nth-child(1):hover { box-shadow: 0 30px 60px rgba(99,91,255,0.2); }
-        .card:nth-child(2):hover { box-shadow: 0 30px 60px rgba(0,255,157,0.2); }
-        .card-icon {
-            font-size: 3.5em;
-            margin-bottom: 16px;
-        }
-        .card h2 {
-            font-size: 1.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.95em;
-            line-height: 1.5;
-        }
-        .card .badge {
-            display: inline-block;
-            margin-top: 14px;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.8em;
-            font-weight: 600;
-        }
-        .card:nth-child(1) .badge { background: rgba(99,91,255,0.15); color: #8b83ff; }
-        .card:nth-child(2) .badge { background: rgba(0,255,157,0.15); color: #00ff9d; }
-        @keyframes fadeDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VisionProyect — Dashboard & Notificaciones</title>
+  <meta name="description" content="Herramientas profesionales: Dashboard Stripe Clone y Generador de Notificaciones Premium">
+  <link rel="icon" href="assets/favicon.ico">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#00ff9d',
+            brandDark: '#00d1ff',
+          },
+        },
+      },
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .card-glow { box-shadow: 0 0 30px rgba(0, 255, 157, 0.35); }
+    .card-glow-blue { box-shadow: 0 0 30px rgba(0, 209, 255, 0.35); }
+    .card-glow-purple { box-shadow: 0 0 30px rgba(147, 51, 234, 0.35); }
+    .gradient-text {
+      background: linear-gradient(90deg, #00ff9d, #00d1ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <div class="logo-section">
-            <img src="logo.png" alt="Logo" class="logo">
-            <h1>VisionProyect Suite</h1>
-            <p class="subtitle">Deux outils puissants. Un seul hub.</p>
-        </div>
-        <div class="cards">
-            <div class="card" onclick="location.href='dashboard.html'">
-                <div class="card-icon">📊</div>
-                <h2>Dashboard Pro</h2>
-                <p>Clone ultra-réaliste du dashboard Stripe. KPI, graphiques, tableaux, filtres — 100% personnalisable.</p>
-                <span class="badge">🔒 Sandbox Démo</span>
-            </div>
-            <div class="card" onclick="location.href='notifications.html'">
-                <div class="card-icon">🔔</div>
-                <h2>Générateur de Notifs</h2>
-                <p>Crée des notifications style Apple Pay / Stripe. Personnalise l'icône, le son, le texte. Spam inclus.</p>
-                <span class="badge">✨ Premium</span>
-            </div>
-        </div>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 antialiased">
+
+  <!-- Navbar -->
+  <nav class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="assets/logo.png" alt="Logo" class="h-9 w-9 rounded-full ring-2 ring-brand" />
+        <span class="font-bold text-lg gradient-text">VisionProyect</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="hover:text-brand transition">Inicio</a>
+        <a href="dashboard.html" class="hover:text-brand transition">📊 Dashboard</a>
+        <a href="notificaciones.html" class="hover:text-brand transition">🔔 Notificaciones</a>
+        <button id="themeToggle" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800">🌙</button>
+      </div>
+      <button id="mobileMenuBtn" class="md:hidden p-2 rounded bg-gray-100 dark:bg-gray-800">☰</button>
     </div>
+    <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 space-y-2 border-t border-gray-200 dark:border-gray-800">
+      <a href="index.html" class="block py-2">Inicio</a>
+      <a href="dashboard.html" class="block py-2">📊 Dashboard</a>
+      <a href="notificaciones.html" class="block py-2">🔔 Notificaciones</a>
+      <button id="themeToggleMobile" class="w-full text-left py-2">🌙 Modo oscuro</button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="max-w-6xl mx-auto px-4 pt-20 pb-12">
+    <div class="text-center">
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-tight" data-aos="fade-down">
+        Herramientas <span class="gradient-text">profesionales</span><br>
+        para tu negocio
+      </h1>
+      <p class="mt-5 text-lg text-gray-600 dark:text-gray-300" data-aos="fade-down" data-aos-delay="100">
+        Elige entre un Dashboard Stripe Clone ultra-realista o un Generador de Notificaciones Premium.
+      </p>
+      <div class="mt-10 flex flex-wrap justify-center gap-4" data-aos="fade-up">
+        <a href="dashboard.html" class="px-8 py-4 rounded-2xl bg-brand text-black font-bold text-xl card-glow hover:scale-105 transition">
+          📊 Dashboard Stripe
+        </a>
+        <a href="notificaciones.html" class="px-8 py-4 rounded-2xl bg-brandDark text-white font-bold text-xl card-glow-blue hover:scale-105 transition">
+          🔔 Notificaciones Premium
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section class="max-w-6xl mx-auto px-4 py-16">
+    <h2 class="text-3xl font-bold text-center mb-12" data-aos="fade-up">¿Qué puedes hacer?</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="p-8 rounded-3xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition" data-aos="fade-right">
+        <div class="text-5xl mb-4">📊</div>
+        <h3 class="text-2xl font-bold mb-3">Dashboard Stripe Clone</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          Un dashboard idéntico al de Stripe, con tu branding. Ideal para SaaS, fintech o cualquier proyecto.
+        </p>
+        <ul class="mt-4 space-y-2 text-gray-700 dark:text-gray-300">
+          <li>• Datos en tiempo real (demo/API)</li>
+          <li>• Gráficos interactivos</li>
+          <li>• Tabla con filtros y paginación</li>
+          <li>• Modo oscuro/claro</li>
+          <li>• 100% responsive</li>
+        </ul>
+        <a href="dashboard.html" class="inline-block mt-6 px-6 py-3 rounded-xl bg-brand text-black font-bold">Probar →</a>
+      </div>
+
+      <div class="p-8 rounded-3xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition" data-aos="fade-left">
+        <div class="text-5xl mb-4">🔔</div>
+        <h3 class="text-2xl font-bold mb-3">Generador de Notificaciones</h3>
+        <p class="text-gray-600 dark:text-gray-300">
+          Crea notificaciones premium realistas (Apple Pay, Stripe, Uber) para demostraciones o videos.
+        </p>
+        <ul class="mt-4 space-y-2 text-gray-700 dark:text-gray-300">
+          <li>• Preview en tiempo real</li>
+          <li>• 5 estilos predefinidos</li>
+          <li>• Historial guardado</li>
+          <li>• Sonido personalizable</li>
+          <li>• Exportar código</li>
+        </ul>
+        <a href="notificaciones.html" class="inline-block mt-6 px-6 py-3 rounded-xl bg-brandDark text-white font-bold">Probar →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="max-w-6xl mx-auto px-4 py-12">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4" data-aos="fade-up">
+      <div class="p-5 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center">
+        <div class="text-2xl font-bold text-brand">5+</div>
+        <div class="text-sm text-gray-500">Herramientas</div>
+      </div>
+      <div class="p-5 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center">
+        <div class="text-2xl font-bold text-brand">100%</div>
+        <div class="text-sm text-gray-500">Gratis</div>
+      </div>
+      <div class="p-5 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center">
+        <div class="text-2xl font-bold text-brand">24/7</div>
+        <div class="text-sm text-gray-500">Disponible</div>
+      </div>
+      <div class="p-5 rounded-2xl bg-gray-100 dark:bg-gray-800 text-center">
+        <div class="text-2xl font-bold text-brand">∞</div>
+        <div class="text-sm text-gray-500">Uso ilimitado</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="max-w-6xl mx-auto px-4 py-16 text-center">
+    <div class="p-12 rounded-3xl bg-gradient-to-r from-brand to-brandDark text-black" data-aos="fade-up">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">¿Listo para empezar?</h2>
+      <p class="text-lg mb-8">Elige la herramienta que necesitas y comienza ahora.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="dashboard.html" class="px-8 py-4 rounded-2xl bg-black text-white font-bold hover:scale-105 transition">
+          📊 Dashboard
+        </a>
+        <a href="notificaciones.html" class="px-8 py-4 rounded-2xl bg-white text-black font-bold hover:scale-105 transition">
+          🔔 Notificaciones
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-gray-200 dark:border-gray-800 py-8">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-sm text-gray-500 dark:text-gray-400">© 2025 VisionProyect — Todos los derechos reservados</div>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-brand">GitHub</a>
+        <a href="#" class="hover:text-brand">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 700 });
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const themeToggleMobile = document.getElementById('themeToggleMobile');
+    const savedTheme = localStorage.getItem('theme');
+    function setTheme(mode) {
+      if (mode === 'dark') root.classList.add('dark');
+      else root.classList.remove('dark');
+      localStorage.setItem('theme', mode);
+      themeToggle.textContent = root.classList.contains('dark') ? '☀️' : '🌙';
+      themeToggleMobile.textContent = root.classList.contains('dark') ? '☀️ Modo claro' : '🌙 Modo oscuro';
+    }
+    if (savedTheme === 'dark') setTheme('dark');
+    else setTheme('light');
+    function toggleTheme() { setTheme(root.classList.contains('dark') ? 'light' : 'dark'); }
+    themeToggle.addEventListener('click', toggleTheme);
+    themeToggleMobile.addEventListener('click', toggleTheme);
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+  </script>
 </body>
 </html>
