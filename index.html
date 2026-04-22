@@ -1,301 +1,78 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VisionProyect</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: linear-gradient(145deg, #0a0e17 0%, #121826 50%, #1a2332 100%);
-            --card: rgba(20, 28, 45, 0.65);
-            --accent: #00ff9d;
-            --accent-glow: #00ff9d88;
-            --text: #e0fbfc;
-            --text-muted: #94a3b8;
-            --border: rgba(0, 255, 157, 0.2);
-        }
-        * { box-sizing: border-box; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(0,255,157,0.08) 0%, transparent 70%);
-            pointer-events: none;
-            animation: pulse 8s infinite alternate;
-        }
-        @keyframes pulse { 0% { opacity: 0.4; } 100% { opacity: 0.6; } }
-        header {
-            padding: 40px 20px 20px;
-            text-align: center;
-            opacity: 0;
-            animation: fadeDown 1s ease-out 0.3s forwards;
-        }
-        .header-content {
-            display: inline-flex;
-            align-items: center;
-            gap: 20px;
-        }
-        #logo {
-            height: 100px;
-            border-radius: 50%;
-            border: 4px solid var(--accent);
-            box-shadow: 0 0 40px var(--accent-glow);
-            transition: all 0.5s;
-        }
-        #logo:hover {
-            transform: scale(1.1) rotate(8deg);
-            box-shadow: 0 0 60px var(--accent-glow);
-        }
-        .site-title {
-            font-size: 3em;
-            font-weight: 800;
-            background: linear-gradient(90deg, #00ff9d, #00d1ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
-        }
-        main {
-            flex-grow: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            padding: 20px;
-        }
-        .container {
-            background: var(--card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 28px;
-            padding: 50px;
-            width: 100%;
-            max-width: 680px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.6), inset 0 0 30px rgba(0,255,157,0.05);
-            border: 1px solid var(--border);
-            opacity: 0;
-            animation: fadeUp 1s ease-out 0.6s forwards;
-        }
-        h2 {
-            text-align: center;
-            font-size: 1.8em;
-            margin-bottom: 20px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        .current-count {
-            text-align: center;
-            font-size: 1.6em;
-            font-weight: 700;
-            margin: 20px 0 30px;
-            padding: 16px;
-            background: linear-gradient(90deg, rgba(0,255,157,0.15), rgba(0,209,255,0.1));
-            border-radius: 16px;
-            color: var(--accent);
-            box-shadow: 0 0 20px rgba(0,255,157,0.2);
-            opacity: 0;
-            animation: fadeIn 1s ease-out 1s forwards;
-        }
-        .form-group {
-            margin-bottom: 28px;
-            opacity: 0;
-            animation: fadeUp 0.8s ease-out forwards;
-        }
-        .form-group:nth-child(1) { animation-delay: 0.8s; }
-        .form-group:nth-child(2) { animation-delay: 1.0s; }
-        .form-group:nth-child(3) { animation-delay: 1.2s; }
-        .form-group:nth-child(4) { animation-delay: 1.4s; }
-        .form-group:nth-child(5) { animation-delay: 1.6s; }
-        .form-group:nth-child(6) { animation-delay: 1.8s; }
-        label {
-            display: block;
-            margin-bottom: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            font-size: 1.1em;
-        }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 16px 20px;
-            border-radius: 16px;
-            border: 1px solid var(--border);
-            background: rgba(30, 40, 60, 0.5);
-            color: white;
-            font-size: 1.15em;
-            transition: all 0.4s;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 4px var(--accent-glow);
-            transform: translateY(-2px);
-        }
-        .preview-icon-wrapper {
-            text-align: center;
-            margin: 20px 0;
-        }
-        #preview-icon {
-            height: 120px;
-            width: 120px;
-            border-radius: 28px;
-            object-fit: cover;
-            border: 4px solid var(--accent);
-            box-shadow: 0 0 40px var(--accent-glow);
-            transition: all 0.5s;
-        }
-        #preview-icon:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 60px var(--accent-glow);
-        }
-        .file-input-label {
-            display: block;
-            padding: 18px;
-            background: rgba(30, 40, 60, 0.5);
-            border: 2px dashed var(--border);
-            border-radius: 16px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.4s;
-            font-weight: 600;
-        }
-        .file-input-label:hover {
-            border-color: var(--accent);
-            background: rgba(0,255,157,0.1);
-            transform: translateY(-3px);
-        }
-        .file-name {
-            margin-top: 10px;
-            font-size: 1em;
-            color: var(--text-muted);
-            text-align: center;
-        }
-        .buttons {
-            margin-top: 50px;
-            display: flex;
-            gap: 24px;
-            justify-content: center;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: fadeUp 1s ease-out 2s forwards;
-        }
-        button {
-            padding: 18px 40px;
-            font-size: 1.3em;
-            font-weight: 700;
-            border: none;
-            border-radius: 20px;
-            color: #000;
-            cursor: pointer;
-            background: var(--accent);
-            box-shadow: 0 10px 30px rgba(0,255,157,0.4);
-            transition: all 0.4s;
-        }
-        button:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 0 20px 50px rgba(0,255,157,0.6);
-        }
-        button:nth-child(3) {
-            background: #ff3b5c;
-            box-shadow: 0 10px 30px rgba(255,59,92,0.4);
-        }
-        button:nth-child(3):hover {
-            box-shadow: 0 20px 50px rgba(255,59,92,0.6);
-        }
-        .spam-info {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 1em;
-            color: var(--text-muted);
-            opacity: 0;
-            animation: fadeIn 1s ease-out 2.5s forwards;
-        }
-        @keyframes fadeDown {
-            from { opacity: 0; transform: translateY(-40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ma Boutique</title>
+  <meta name="description" content="Bienvenue dans ma boutique : produits, conseils, offres." />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Theme change (mode sombre/clair) -->
+  <script src="https://unpkg.com/@theme-change/core@latest/index.js"></script>
 </head>
-<body>
-    <header>
-        <div class="header-content">
-            <img src="logo.png" alt="Logo" id="logo">
-            <h1 class="site-title">VisionProyect</h1>
-        </div>
-    </header>
-    <main>
-        <div class="container">
-            <h2>Generador de notificaciones premium</h2>
-            <div class="current-count" id="current-count">Próxima commande: #1001</div>
-            <form id="notif-form">
-                <div class="form-group">
-                    <label>Icono de notificación</label>
-                    <div class="preview-icon-wrapper">
-                        <img id="preview-icon" src="logo.png" alt="Vista previa">
-                    </div>
-                    <div class="file-input-wrapper">
-                        <label class="file-input-label" for="icon-file">Seleccionar nueva imagen</label>
-                        <input type="file" id="icon-file" accept="image/*" style="display: none;">
-                    </div>
-                    <div class="file-name" id="icon-name">Por defecto: logo.png</div>
-                </div>
-                <div class="form-group">
-                    <label>Sonido de notificación</label>
-                    <div class="file-input-wrapper">
-                        <label class="file-input-label" for="sound-file">Seleccionar nuevo sonido</label>
-                        <input type="file" id="sound-file" accept="audio/*" style="display: none;">
-                    </div>
-                    <div class="file-name" id="sound-name">Por defecto: sonido.mp3 ✓</div>
-                </div>
-                <div class="form-group">
-                    <label>Precio</label>
-                    <input type="text" id="precio" value="59,99 €">
-                </div>
-                <div class="form-group">
-                    <label>Cantidad de artículos</label>
-                    <input type="number" id="cantidad" min="1" value="1">
-                </div>
-                <div class="form-group">
-                    <label>Texto final (después del punto)</label>
-                    <input type="text" id="texto-punto" value="vissionproyect">
-                </div>
-                <div class="form-group">
-                    <label>Cantidad de notificaciones spam</label>
-                    <input type="number" id="spam-count" min="1" value="10">
-                </div>
-                <div class="buttons">
-                    <button type="button" onclick="activarNotifs()">Activar</button>
-                    <button type="button" onclick="lanzarSpam()">Lanzar Spam</button>
-                    <button type="button" onclick="pararSpam()">Parar Spam</button>
-                </div>
-                <div class="spam-info">
-                    Intervalo ultra rápido • Glow aesthetic 2025 • Hecho para pros 💚
-                </div>
-            </form>
-        </div>
-    </main>
-    <script src="script.js"></script>
+
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col">
+  <!-- Bouton mode sombre/clair -->
+  <button
+    data-toggle-theme="dark,light"
+    data-act-class="ACTIVE"
+    class="fixed top-4 right-4 p-3 bg-gray-200 dark:bg-gray-800 rounded-full shadow"
+    aria-label="Changer de thème"
+  >☀️/🌙</button>
+
+  <!-- Header -->
+  <header class="text-center py-12">
+    <h1 class="text-4xl font-bold">Ma Boutique</h1>
+    <p class="mt-2 text-gray-600 dark:text-gray-300">Des produits sympas, au meilleur prix</p>
+  </header>
+
+  <!-- Contenu principal -->
+  <main class="max-w-3xl mx-auto p-5 flex-grow">
+    <!-- Section produits (exemples) -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="border rounded-lg p-5 dark:border-gray-700">
+        <h2 class="text-xl font-bold">Produit 1</h2>
+        <p class="mt-2">Description courte. Prix : 19€</p>
+        <a href="#" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Acheter</a>
+      </div>
+      <div class="border rounded-lg p-5 dark:border-gray-700">
+        <h2 class="text-xl font-bold">Produit 2</h2>
+        <p class="mt-2">Description courte. Prix : 29€</p>
+        <a href="#" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Acheter</a>
+      </div>
+    </section>
+
+    <!-- Dons -->
+    <div class="my-10 text-center">
+      <a
+        href="https://buymeacoffee.com/tonnom"
+        target="_blank"
+        class="inline-block bg-yellow-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-yellow-600"
+      >
+        Soutenez-moi ☕
+      </a>
+    </div>
+
+    <!-- Formulaire de contact -->
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold mb-4">Contact</h2>
+      <form action="https://formspree.io/f/tonform" method="POST" class="space-y-4">
+        <input type="text" name="name" placeholder="Nom" class="w-full p-3 border rounded dark:bg-gray-800 dark:border-gray-700" required />
+        <input type="email" name="email" placeholder="Email" class="w-full p-3 border rounded dark:bg-gray-800 dark:border-gray-700" required />
+        <textarea name="message" placeholder="Message" class="w-full p-3 border rounded h-32 dark:bg-gray-800 dark:border-gray-700" required></textarea>
+        <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded font-bold hover:bg-blue-600">Envoyer</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer + affiliation -->
+  <footer class="text-center py-6 bg-gray-100 dark:bg-gray-800">
+    <p>Recommandations : <a href="https://amazon.fr" target="_blank" class="underline">Amazon</a></p>
+    <p class="text-sm mt-2 text-gray-500">© Ma Boutique</p>
+  </footer>
+
+  <script>themeChange(false)</script>
 </body>
 </html>
